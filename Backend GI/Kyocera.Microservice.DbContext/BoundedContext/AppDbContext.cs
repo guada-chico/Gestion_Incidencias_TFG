@@ -1,11 +1,11 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Kyocera.Microservice.Models.Models;
 
-namespace Kyocera.Microservice.BoundedContext
+namespace Kyocera.Microservice.DbContext.BoundedContext
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public AppDbContext(Microsoft.EntityFrameworkCore.DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Incidencia> Incidencias { get; set; }
     }
