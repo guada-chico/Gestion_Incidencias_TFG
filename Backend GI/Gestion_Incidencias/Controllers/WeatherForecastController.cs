@@ -21,7 +21,7 @@ namespace Gestion_Incidencias.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public string Get()
         {
-            return "Hello World julia!";
+            return "Hello World guada!";
         }
     }
 }
