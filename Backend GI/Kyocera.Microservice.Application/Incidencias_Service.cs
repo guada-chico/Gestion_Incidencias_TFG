@@ -1,6 +1,6 @@
 ﻿namespace Kyocera.Microservice.Application
 {
-    public class Class1
+    public class Incidencias_Service
     {
 
     }

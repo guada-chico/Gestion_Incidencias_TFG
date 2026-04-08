@@ -1,27 +1,53 @@
+using Kyocera.Microservice.Models.Models;
+using Kyocera.Microservice.WebAPI.Interface;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gestion_Incidencias.Controllers
+
+namespace Gestion_Incidencias_v3.API.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class IncidenciasController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    private readonly IInterfaz _service;
+
+    public IncidenciasController(IInterfaz service)
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        _service = service;
+    }
 
-        private readonly ILogger<WeatherForecastController> _logger;
+    [HttpGet]
+    public async Task<ActionResult<List<Incidencia>>> Get()
+    {
+        return Ok(await _service.ObtenerTodas());
+    }
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Incidencia>> Get(int id)
+    {
+        var inc = await _service.ObtenerPorId(id);
+        return inc == null ? NotFound() : Ok(inc);
+    }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public string Get()
-        {
-            return "Hello World guada!";
-        }
+    [HttpPost]
+    public async Task<ActionResult> Post(Incidencia inc)
+    {
+        await _service.Crear(inc);
+        return CreatedAtAction(nameof(Get), new { id = inc.Id }, inc);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult> Put(int id, Incidencia inc)
+    {
+        if (id != inc.Id) return BadRequest();
+        await _service.Actualizar(inc);
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        await _service.Eliminar(id);
+        return NoContent();
     }
 }
