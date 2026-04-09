@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Kyocera.Microservice.Models.Models;
+﻿using Kyocera.Microservice.Models.Models;
 
 namespace Kyocera.Microservice.Application.Interfaces
 {
