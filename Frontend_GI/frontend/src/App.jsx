@@ -1,6 +1,8 @@
 // src/App.jsx
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-// ... importaciones de IncidentList, IncidentForm, IncidentDetail ...
+import IncidentList from './pages/IncidentList';
+import IncidentDetail from './pages/IncidentDetail';
+import IncidentForm from './pages/IncidentForm';
 import Header from './components/Header'; // Importamos el Header actualizado
 import NavBar from './components/NavBar';
 import Login from './components/Login';

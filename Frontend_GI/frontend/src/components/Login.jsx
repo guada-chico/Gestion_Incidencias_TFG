@@ -3,10 +3,11 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [isRegister, setIsRegister] = useState(false) // Toggle login/registro
+  const [isRegister, setIsRegister] = useState(false)
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
@@ -17,25 +18,47 @@ export default function Login() {
         alert('Las contraseñas no coinciden')
         return
       }
-      // Aquí normalmente harías llamada a API para registrar
-      console.log('Registro:', { email, password })
-      alert(`¡Usuario registrado con éxito! Bienvenido, ${email}`)
+      console.log('Registro:', { name, email, password })
+      alert(`¡Usuario registrado con éxito! Bienvenido, ${name}`)
     } else {
-      // Login normal
       console.log('Login:', { email, password })
       alert(`Bienvenido, ${email}!`)
     }
 
-    // Resetear campos y redirigir
+    setName('')
     setEmail('')
     setPassword('')
     setConfirmPassword('')
-    navigate('/') // Redirige al listado
+    navigate('/') 
+  }
+
+  // Guardamos el estilo común en una variable para no repetirlo 4 veces
+  const inputStyle = { 
+    width: '100%', 
+    padding: '8px', 
+    boxSizing: 'border-box', // Esto iguala los anchos
+    border: '1px solid #ccc',
+    borderRadius: '4px' 
   }
 
   return (
     <div style={{ maxWidth: '400px', margin: '50px auto', textAlign: 'left' }}>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+
+        {isRegister && (
+          <div>
+            <label htmlFor="name">Nombre:</label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              style={inputStyle}
+            />
+          </div>
+        )}
+
         <div>
           <label htmlFor="email">Email:</label>
           <input
@@ -44,9 +67,10 @@ export default function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px' }}
+            style={inputStyle}
           />
         </div>
+        
         <div>
           <label htmlFor="password">Contraseña:</label>
           <input
@@ -55,7 +79,7 @@ export default function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px' }}
+            style={inputStyle}
           />
         </div>
 
@@ -68,7 +92,7 @@ export default function Login() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              style={{ width: '100%', padding: '8px' }}
+              style={inputStyle}
             />
           </div>
         )}
@@ -80,6 +104,7 @@ export default function Login() {
             backgroundColor: '#007bff',
             color: 'white',
             border: 'none',
+            borderRadius: '4px',
             cursor: 'pointer'
           }}
         >

@@ -1,7 +1,7 @@
 // src/components/Header.jsx
 import { Link } from 'react-router-dom';
 // Asegúrate de tener una imagen en src/assets/logo.png o cambia la ruta
-import logoImg from '../assets/react.svg'; 
+import logoImg from '../assets/Kyocera_logo.svg.png'; 
 
 export default function Header() {
   return (

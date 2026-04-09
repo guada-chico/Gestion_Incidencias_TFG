@@ -10,7 +10,7 @@ export default function IncidentList() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
+    fetch('https://jsonplaceholder.typicode.com/posts') // Cambia por tu API real
       .then(res => {
         if (!res.ok) throw new Error('Error al cargar los datos');
         return res.json();
