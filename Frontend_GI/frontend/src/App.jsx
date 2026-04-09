@@ -1,30 +1,26 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import IncidentList from './pages/IncidentList';
-import IncidentDetail from './pages/IncidentDetail';
-import IncidentForm from './pages/IncidentForm';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import NavBar from './components/NavBar'
+import IncidentList from './pages/IncidentList'
+import IncidentDetail from './pages/IncidentDetail'
+import IncidentForm from './pages/IncidentForm'
+import Login from './components/Login'
+import './App.css'
 
 function App() {
   return (
     <Router>
-      <div className="app-container">
-        <nav>
-          <h1>Gestión de Incidencias</h1>
-          <Link to="/">Ver Incidencias</Link>
-          <Link to="/crear">Nueva Incidencia</Link>
-        </nav>
-
-        <main>
-          <Routes>
-            <Route path="/" element={<IncidentList />} />
-            <Route path="/crear" element={<IncidentForm />} />
-            <Route path="/editar/:id" element={<IncidentForm />} />
-            <Route path="/incidencia/:id" element={<IncidentDetail />} />
-          </Routes>
-        </main>
-      </div>
+      <NavBar />
+      <main>
+        <Routes>
+          <Route path="/" element={<IncidentList />} />
+          <Route path="/crear" element={<IncidentForm />} />
+          <Route path="/editar/:id" element={<IncidentForm />} />
+          <Route path="/incidencia/:id" element={<IncidentDetail />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </main>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
