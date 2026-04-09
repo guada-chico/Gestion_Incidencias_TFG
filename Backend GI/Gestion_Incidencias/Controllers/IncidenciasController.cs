@@ -73,35 +73,34 @@ namespace Kyocera.Microservice.Controllers
             return Ok(response);
         }
 
-        // GET: api/incidencias/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Incidencia>> GetById(int id)
+      
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Incidencia>> GetById(int id)
         {
-            var incidencia = await _repository.GetByIdAsync(id);
+         var incidencia = await _repository.GetByIdAsync(id);
 
-            if (incidencia == null)
-                return NotFound();
+         if (incidencia == null)
+             return NotFound();
 
             return Ok(incidencia);
         }
 
 
-        [HttpPost]
-        public async Task<ActionResult<Incidencia>> Create(Incidencia incidencia)
+    [HttpPost]
+    public async Task<ActionResult<Incidencia>> Create(Incidencia incidencia)
         {
-            incidencia.FechaCreacion = DateTime.Now;
-            // Nota: la clase Incidencia no define FechaActualizacion; ajustar el modelo si es necesario.
+         incidencia.FechaCreacion = DateTime.Now;
 
             var created = await _repository.CreateAsync(incidencia);
 
             return CreatedAtAction(nameof(GetById), new { id = incidencia.Id }, incidencia);
         }
 
-        // PUT: api/incidencias/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Incidencia incidencia)
-        {
-            if (id != incidencia.Id)
+       
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, Incidencia incidencia)
+       {
+           if (id != incidencia.Id)
                 return BadRequest();
 
             var existing = await _repository.GetByIdAsync(id);
@@ -115,25 +114,25 @@ namespace Kyocera.Microservice.Controllers
             existing.Estado = incidencia.Estado;
             existing.Prioridad = incidencia.Prioridad;
             existing.FechaLimite = incidencia.FechaLimite;
-            // existing.FechaActualizacion = DateTime.Now; // Si agregas la propiedad en el modelo
+  
 
-            await _repository.UpdateAsync(existing); // actualizar el objeto existente
+          await _repository.UpdateAsync(existing); 
 
-            return NoContent();
+          return NoContent();
         }
 
-        // DELETE: api/incidencias/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
         {
-            var incidencia = await _repository.GetByIdAsync(id);
+          var incidencia = await _repository.GetByIdAsync(id);
 
-            if (incidencia == null)
-                return NotFound();
+          if (incidencia == null)
+               return NotFound();
 
-            await _repository.DeleteAsync(id);
+           await _repository.DeleteAsync(id);
 
-            return NoContent();
+           return NoContent();
         }
     }
 }

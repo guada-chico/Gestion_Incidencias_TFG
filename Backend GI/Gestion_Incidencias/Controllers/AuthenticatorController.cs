@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -22,24 +23,37 @@ public class AuthController : ControllerBase
         return Unauthorized();
     }
 
+    [HttpPost("register")]
+    public IActionResult Register([FromBody] LoginRequest request)
+    {
+       
+        if (request.Usuario == "admin.kyocera")
+            return BadRequest("El usuario ya existe");
+
+        return Ok("Usuario registrado correctamente");
+    }
+
+    // Generate a signed JWT token for the authenticated user
     private string GenerateToken(string usuario)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("clave_super_secreta"));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes("mi_clave_secreta_1234567890");
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.Name, usuario)
+            new Claim(ClaimTypes.Name, usuario),
+            new Claim(ClaimTypes.Role, "Administrator")
         };
 
-        var token = new JwtSecurityToken(
-            issuer: "tuApp",
-            audience: "tuApp",
-            claims: claims,
-            expires: DateTime.Now.AddHours(1),
-            signingCredentials: creds
-        );
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddHours(1),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
+
 }
