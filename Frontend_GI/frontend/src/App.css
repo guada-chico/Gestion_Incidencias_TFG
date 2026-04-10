@@ -8,14 +8,14 @@
 }
 
 .header-logo {
-  height: 50px; /* Ajuste según el logo de Kyocera */
+  height: 40px; /* Ajuste según el logo de Kyocera */
   width: auto;
   margin-bottom: 15px;
 }
 
 .header-global h1 {
   color: #c31d0e !important; /* Rojo corporativo de la imagen */
-  font-size: 32px !important;
+  font-size: 28px !important;
   font-weight: 500 !important;
   text-transform: uppercase;
   letter-spacing: 2px;

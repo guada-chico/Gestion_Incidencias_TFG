@@ -1,6 +1,7 @@
 // src/components/Login.jsx
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 export default function Login() {
   const [name, setName] = useState('')
@@ -8,6 +9,7 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [isRegister, setIsRegister] = useState(false)
+
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
@@ -15,36 +17,59 @@ export default function Login() {
 
     if (isRegister) {
       if (password !== confirmPassword) {
-        alert('Las contraseñas no coinciden')
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Las contraseñas no coinciden',
+          confirmButtonColor: 'var(--kyocera-red)'
+        })
         return
       }
+
       console.log('Registro:', { name, email, password })
-      alert(`¡Usuario registrado con éxito! Bienvenido, ${name}`)
+
+      Swal.fire({
+        icon: 'success',
+        title: '¡Registro completado con éxito!',
+        confirmButtonColor: 'var(--btn-confirm-sweetAlert)'
+      }).then(() => {
+        setIsRegister(false)
+      })
+
     } else {
       console.log('Login:', { email, password })
-      alert(`Bienvenido, ${email}!`)
+
+      Swal.fire({
+        icon: 'success',
+        title: '¡Bienvenid@!',
+        text: `Hola ${name} 👋`,
+        confirmButtonColor: 'var(--btn-confirm-sweetAlert)'
+      }).then(() => {
+        navigate('/')
+      })
     }
 
+    // limpiar campos
     setName('')
     setEmail('')
     setPassword('')
     setConfirmPassword('')
-    navigate('/') 
   }
 
-  // Guardamos el estilo común en una variable para no repetirlo 4 veces
-  const inputStyle = { 
-    width: '100%', 
-    padding: '8px', 
-    boxSizing: 'border-box', // Esto iguala los anchos
+  const inputStyle = {
+    width: '100%',
+    padding: '8px',
+    boxSizing: 'border-box',
     border: '1px solid #ccc',
-    borderRadius: '4px' 
+    borderRadius: '4px'
   }
 
   return (
     <div style={{ maxWidth: '400px', margin: '50px auto', textAlign: 'left' }}>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}
+      >
         {isRegister && (
           <div>
             <label htmlFor="name">Nombre:</label>
@@ -70,7 +95,7 @@ export default function Login() {
             style={inputStyle}
           />
         </div>
-        
+
         <div>
           <label htmlFor="password">Contraseña:</label>
           <input
@@ -117,7 +142,13 @@ export default function Login() {
         <button
           type="button"
           onClick={() => setIsRegister(!isRegister)}
-          style={{ color: '#007bff', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+          style={{
+            color: '#007bff',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0
+          }}
         >
           {isRegister ? 'Iniciar sesión' : 'Regístrate'}
         </button>

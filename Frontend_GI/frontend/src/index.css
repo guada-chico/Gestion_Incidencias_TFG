@@ -15,6 +15,7 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
   --kyocera-red: #c31d0e; /* Color corporativo de la imagen */
+  --btn-confirm-sweetAlert: #3085d6; /* Color de confirmación para SweetAlert */
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
