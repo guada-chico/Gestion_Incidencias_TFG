@@ -9,7 +9,7 @@
 }
 
 .sidebar {
-  width: 180px;
+  width: 220px;
   min-height: 100vh;
   background-color: var(--bg-sidebar);
   border-right: 1px solid var(--border);
@@ -194,4 +194,40 @@
   border: none;
   color: var(--kyocera-red);
   cursor: pointer;
+}
+
+/* BOTÓN TOGGLE */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+}
+
+.sidebar-mini {
+  width: 70px;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-mini {
+  width: 40px;
+  height: auto;
+}
+
+.toggle-btn {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  background: var(--kyocera-red);
+  color: white;
+  border: none;
+  padding: 14px 18px;
+  font-size: 22px;
+  cursor: pointer;
+  border-radius: 6px;
+  z-index: 10;
 }
