@@ -1,7 +1,6 @@
 /* =========================
    LAYOUT GENERAL APP
 ========================= */
-
 .app-layout {
   display: flex;
   min-height: 100vh;
@@ -15,10 +14,23 @@
   min-width: 0;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* ELIMINADO EL FLEX QUE MONTABA LAS CARDS */
+.main-content {
+  flex: 1;
+  padding: 40px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
 
+.page-wrapper {
+  width: 95%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* =========================
+   HEADER (HERO)
+========================= */
 .hero {
   text-align: center;
   padding: 20px 0;
@@ -33,258 +45,166 @@
 }
 
 /* =========================
-   MAIN CONTENT
+   GRID DE INCIDENCIAS
 ========================= */
-
-.main-content {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-}
-
-.page-wrapper {
-  width: 95%;        /* Usa casi todo el ancho de la pantalla */
-  max-width: 1400px;  /* Pero ponle un tope para que no se deforme en monitores gigantes */
-  margin: 0 auto;
-}
-
-/* =========================
-   INCIDENTES
-========================= */
-
 .incident-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-  gap:25px;
+  /* Ajustado a 380px para evitar colapsos en pantallas medianas */
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 30px;
   width: 100%;
 }
 
 .incident-card {
-  background: rgb(247, 252, 252);
+  background: white;
   border: 2px solid var(--border);
   border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 15px 15px rgba(18, 24, 27, 0.05);
-  transition: 0.2s;
-  
-  /* ESTO ES LO CLAVE */
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
   display: flex;
-  flex-direction: column; 
-  height: 100%; /* Obliga a todas las tarjetas de la fila a medir lo mismo */
+  flex-direction: column;
+  height: 100%; /* Para que todas midan lo mismo */
+  box-sizing: border-box;
 }
-
-/* BOTONES UNIFORMES Y CENTRADOS */
-.card-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  
-  /* ESTO EMPUJA LOS BOTONES AL FONDO */
-  margin-top: auto; 
-  padding-top: 10px; /* Espacio mínimo para que no peguen con el texto de arriba */
-}
-
 
 .incident-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
+  border-color: #d1d1d1;
 }
 
+/* TÍTULO DE LA CARD CON CLAMP SEGURO */
 .incident-card h3 {
-  margin: 10px 0;
+  margin: 15px 0;
   font-size: 20px;
   text-align: center;
-  height: 50px;      /* Altura fija para 2 líneas */
-  overflow: hidden;   /* Corta lo que sobre */
-  display: block;    /* Cambiamos el box-orient por bloque normal */
+  min-height: 54px; /* Espacio para 2 líneas */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word; /* Evita que "444444" desborde */
+}
+
+/* FILAS DE INFORMACIÓN (USER / FECHA) */
+.info-row {
+  font-size: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px;
+  border-radius: 50px;
+}
+
+.assigned-row { color: #506ee4; background: #eaf3fa; }
+.date-row { color: #d63384; background: #fdf2f4; }
+
+/* BOTONES AL FONDO */
+.card-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: auto; /* Empuja al fondo */
+  padding-top: 15px;
 }
 
 /* =========================
-   BADGES
+   BOTONES Y BUSCADOR
 ========================= */
-
-.badge {
-  display: inline-block;
-  padding: 4px 8px;
-  font-size: 11px;
-  border-radius: 6px;
-  color: white;
-  margin-right: 6px;
-}
-
-/* =========================
-   BOTONES
-========================= */
-
 .btn {
-  width: 100px; /* Subido a 100px para que los iconos y el texto respiren */
-  height: 36px;
+  width: 100px;
+  height: 38px;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 13px;
   border: none;
   cursor: pointer;
   font-weight: bold;
-  text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px; /* Espacio entre el icono de Lucide y el texto */
-  transition: all 0.2s ease;
+  gap: 6px;
+  transition: opacity 0.2s;
+  text-decoration: none;
 }
 
-.btn:hover {
-  opacity: 0.8;
+.btn:hover { opacity: 0.85; }
+.btn-danger { background: #e74c3c; color: white; }
+.btn-edit { background: #cce7fa; color: #004a7c; }
+.btn-detail { background: #f2dbfc; color: #5a189a; }
+
+.search-form {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  width: 100%;
 }
 
-.btn-danger {
-  background: #e74c3c;
-  color: white;
+.search-input {
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background: white;
+  font-family: inherit; /* Arregla la letra */
 }
 
-.btn-edit {
-  background: #cce7fa;
-  color: black;
-}
-
-.btn-detail {
-  background: #f2dbfc;
-  color: black;
-}
+.search-input:focus { border-color: var(--kyocera-red); }
 
 .btn-search {
   background: var(--kyocera-red);
   color: white;
-  height: 42px;
-  padding: 0 20px;
-  border-radius: 8px; /* Redondeado de 8px */
+  padding: 0 25px;
+  border-radius: 8px;
   border: none;
-  cursor: pointer;
   font-weight: bold;
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
-  width: auto;
 }
 
 /* =========================
-   BUSCADOR
+   SIDEBAR
 ========================= */
-
-.search-input {
-  padding: 10px 15px;
-  border: 1px solid var(--border);
-  border-radius: 8px; /* Border radius para el cuadrado de buscar */
-  font-size: 14px;
-  outline: none;
-  background-color: white;
-  transition: border-color 0.2s;
+.sidebar {
+  width: 240px;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
 }
 
-.search-input:focus {
-  border-color: var(--kyocera-red);
+.toggle-btn {
+  position: absolute;
+  left: 25px;
+  top: 25px;
+  background: var(--kyocera-red);
+  color: white;
+  font-size: 15px;
+  padding: 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 100;
 }
 
 /* =========================
-   LOGIN PAGE (NUEVO)
+   LOGIN
 ========================= */
-
 .login-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: var(--bg);
-}
-
-.login-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.login-header img {
-  width: 150px;
-}
-
-.login-header h1 {
-  font-size: 28px;
-  margin-top: 10px;
+  background: #f8f9fa;
 }
 
 .login-container {
   background: white;
-  padding: 50px;
+  padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-  width: 420px;
-}
-
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.login-form input {
-  padding: 14px;
-  font-size: 15px;
-  border-radius: 6px;
-}
-
-.login-form button {
-  padding: 10px;
-  background: var(--kyocera-red);
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.login-switch {
-  margin-top: 10px;
-  font-size: 14px;
-  text-align: center;
-}
-
-.login-switch button {
-  background: none;
-  border: none;
-  color: var(--kyocera-red);
-  cursor: pointer;
-}
-
-/* BOTÓN TOGGLE */
-.sidebar {
-  width: 240px;
-  min-height: 100vh;
-  background-color: var(--bg-sidebar);
-  border-right: 1px solid var(--border);
-}
-
-.sidebar-mini {
-  width: 70px;
-  min-height: 100vh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.logo-mini {
-  width: 40px;
-  height: auto;
-}
-
-.toggle-btn {
-  position: absolute;
-  left: 15px;
-  top: 15px;
-  background: var(--kyocera-red);
-  color: white;
-  border: none;
-  padding: 14px 18px;
-  font-size: 22px;
-  cursor: pointer;
-  border-radius: 6px;
-  z-index: 10;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
 }
