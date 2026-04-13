@@ -12,7 +12,7 @@ import kyoImgMini from './assets/kyocera.png'
 import './App.css'
 
 /* =========================
-   LAYOUT PRINCIPAL
+    LAYOUT PRINCIPAL (Mantenemos tu estilo exacto)
 ========================= */
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -27,6 +27,7 @@ function AppLayout() {
         </aside>
       ) : (
         <aside className="sidebar-mini">
+          {/* Aquí puedes poner el kyoImgMini si quieres */}
         </aside>
       )}
 
@@ -61,9 +62,17 @@ function AppLayout() {
 }
 
 /* =========================
-   APP ROUTER
+    APP ROUTER
 ========================= */
 function App() {
+  // NUEVO: Estado global para las incidencias
+  const [incidents, setIncidents] = useState([]);
+
+  // NUEVO: Función para añadir incidencias
+  const addIncident = (newInc) => {
+    setIncidents([...incidents, newInc]);
+  };
+
   return (
     <Router>
       <Routes>
@@ -71,12 +80,13 @@ function App() {
         {/* LOGIN SIN SIDEBAR */}
         <Route path="/login" element={<Login />} />
 
-        {/* APP PRINCIPAL */}
+        {/* APP PRINCIPAL - Pasamos los datos a través de context o props */}
         <Route element={<AppLayout />}>
-          <Route path="/" element={<IncidentList />} />
-          <Route path="/crear" element={<IncidentForm />} />
-          <Route path="/editar/:id" element={<IncidentForm />} />
-          <Route path="/incidencia/:id" element={<IncidentDetail />} />
+          {/* Usamos el componente de React para inyectar las props en el Outlet o pasarlas directamente */}
+          <Route path="/" element={<IncidentList incidents={incidents} setIncidents={setIncidents} />} />
+          <Route path="/crear" element={<IncidentForm onAdd={addIncident} />} />
+          <Route path="/editar/:id" element={<IncidentForm incidents={incidents} setIncidents={setIncidents} />} />
+          <Route path="/incidencia/:id" element={<IncidentDetail incidents={incidents} />} />
         </Route>
 
       </Routes>

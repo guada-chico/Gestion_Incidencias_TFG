@@ -1,34 +1,11 @@
-import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-export default function IncidentDetail() {
+// Recibimos la lista de incidencias real como prop desde App.jsx
+export default function IncidentDetail({ incidents }) {
   const { id } = useParams();
-  const [incident, setIncident] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        // 🔥 Simulación de campos nuevos
-        const enhanced = {
-          ...data,
-          status: ['abierta', 'en proceso', 'resuelta', 'cerrada'][
-            Math.floor(Math.random() * 4)
-          ],
-          priority: ['baja', 'media', 'alta', 'critica'][
-            Math.floor(Math.random() * 4)
-          ]
-        };
-
-        setIncident(enhanced);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Error cargando incidencia', err);
-        setLoading(false);
-      });
-  }, [id]);
+  // Buscamos la incidencia en nuestra lista local usando el ID de la URL
+  const incident = incidents.find(inc => inc.id === parseInt(id));
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -50,8 +27,8 @@ export default function IncidentDetail() {
     }
   };
 
-  if (loading) return <p>Cargando detalle...</p>;
-  if (!incident) return <p>No se encontró la incidencia.</p>;
+  // Si aún no hay datos o no se encuentra la incidencia
+  if (!incident) return <p style={{ padding: '20px' }}>No se encontró la incidencia o no hay datos disponibles.</p>;
 
   return (
     <div style={{ textAlign: 'left', maxWidth: '600px', margin: '0 auto' }}>
@@ -67,9 +44,9 @@ export default function IncidentDetail() {
         <h3>{incident.title}</h3>
 
         <p><strong>Descripción:</strong></p>
-        <p>{incident.body}</p>
+        <p>{incident.description || incident.body}</p>
 
-        {/* BADGES */}
+        {/* BADGES - Ahora muestran el estado y prioridad real que elegiste en el formulario */}
         <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
           <span
             style={{

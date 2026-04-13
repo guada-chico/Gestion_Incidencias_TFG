@@ -8,14 +8,6 @@
   width: 100%;
 }
 
-.sidebar {
-  width: 220px;
-  min-height: 100vh;
-  background-color: var(--bg-sidebar);
-  border-right: 1px solid var(--border);
-  flex-shrink: 0;
-}
-
 .main-area {
   flex: 1;
   display: flex;
@@ -121,11 +113,12 @@
 ========================= */
 
 .search-input {
+  display: block;
+  margin: 0 auto 20px auto;
   padding: 10px;
-  width: 300px;
+  width: 400px;
   border: 1px solid var(--border);
   border-radius: 8px;
-  margin-bottom: 20px;
 }
 
 /* =========================

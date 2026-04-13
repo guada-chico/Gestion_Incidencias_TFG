@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-export default function IncidentForm() {
+// Recibimos 'onAdd' para crear y la lista 'incidents' para cuando toque editar
+export default function IncidentForm({ onAdd, incidents = [], setIncidents }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -14,22 +15,25 @@ export default function IncidentForm() {
 
   const [loading, setLoading] = useState(!!id);
 
+  // Si estamos editando, buscamos la incidencia en nuestro estado local
   useEffect(() => {
-    if (id) {
-      fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
-        .then(res => res.json())
-        .then(data => {
-          setFormData({
-            title: data.title,
-            description: data.body,
-            status: 'en proceso',
-            priority: 'media'
-          });
-          setLoading(false);
-        })
-        .catch(err => console.error("Error cargando incidencia", err));
+    if (id && incidents.length > 0) {
+      const existingIncident = incidents.find(inc => inc.id === parseInt(id));
+      if (existingIncident) {
+        setFormData({
+          title: existingIncident.title,
+          description: existingIncident.description || existingIncident.body,
+          status: existingIncident.status,
+          priority: existingIncident.priority
+        });
+      }
+      setLoading(false);
+    } else if (id) {
+      // Si el ID existe pero la lista está vacía (por ejemplo al recargar), 
+      // quitamos el loading para poder usar el formulario
+      setLoading(false);
     }
-  }, [id]);
+  }, [id, incidents]);
 
   const handleChange = (e) => {
     setFormData({
@@ -41,9 +45,22 @@ export default function IncidentForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("Datos a enviar:", formData);
-
-    alert(`¡Incidencia ${id ? 'editada' : 'creada'} con éxito!`);
+    if (id) {
+      // LÓGICA DE EDICIÓN: Actualizamos el registro existente en la lista global
+      const updatedIncidents = incidents.map(inc => 
+        inc.id === parseInt(id) ? { ...formData, id: parseInt(id) } : inc
+      );
+      setIncidents(updatedIncidents);
+      alert('¡Incidencia editada con éxito!');
+    } else {
+      // LÓGICA DE CREACIÓN: Generamos un ID y usamos onAdd
+      const newIncident = {
+        ...formData,
+        id: Date.now(), // ID único temporal
+      };
+      onAdd(newIncident);
+      alert('¡Incidencia creada con éxito!');
+    }
 
     navigate('/');
   };
@@ -120,7 +137,7 @@ export default function IncidentForm() {
           </select>
         </div>
 
-        {/* BOTÓN */}
+        {/* BOTÓN - Mantenemos tu color 'blue' y estilos */}
         <button
           type="submit"
           style={{

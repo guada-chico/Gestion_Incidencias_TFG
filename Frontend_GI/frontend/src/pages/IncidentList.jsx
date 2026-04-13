@@ -1,41 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function IncidentList() {
-  const [incidents, setIncidents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
+// Recibimos 'incidents' y 'setIncidents' como props desde App.jsx
+export default function IncidentList({ incidents, setIncidents }) {
   const [searchTerm, setSearchTerm] = useState('');
-
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-      .then(res => {
-        if (!res.ok) throw new Error('Error al cargar los datos');
-        return res.json();
-      })
-      .then(data => {
-        const enhanced = data.slice(0, 10).map(item => ({
-          ...item,
-          status: ['abierta', 'en proceso', 'resuelta', 'cerrada'][
-            Math.floor(Math.random() * 4)
-          ],
-          priority: ['baja', 'media', 'alta', 'critica'][
-            Math.floor(Math.random() * 4)
-          ]
-        }));
-
-        setIncidents(enhanced);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
 
   const handleDelete = (id) => {
     if (window.confirm('¿Estás seguro de que deseas borrar esta incidencia?')) {
+      // Borramos del estado global
       setIncidents(incidents.filter(inc => inc.id !== id));
       alert('Incidencia borrada con éxito');
     }
@@ -45,6 +17,7 @@ export default function IncidentList() {
     incident.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Mantenemos tus funciones de colores intactas
   const getStatusColor = (status) => {
     switch (status) {
       case 'abierta': return '#3498db';
@@ -65,14 +38,13 @@ export default function IncidentList() {
     }
   };
 
-  if (loading) return <p>Cargando incidencias...</p>;
-  if (error) return <p style={{ color: 'red' }}>Error: {error}</p>;
+  // Eliminamos el bloque de 'loading' porque ahora los datos son locales e instantáneos
 
   return (
     <div className="incident-page">
       <h2>Listado de Incidencias</h2>
 
-      {/* BUSCADOR */}
+      {/* BUSCADOR - Mantenemos tu clase search-input */}
       <input
         className="search-input"
         type="text"
@@ -81,12 +53,12 @@ export default function IncidentList() {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      {/* GRID */}
+      {/* GRID - Mantenemos tu estructura de tarjetas original */}
       <div className="incident-grid">
         {filteredIncidents.map(incident => (
           <div key={incident.id} className="incident-card">
 
-            {/* BADGES */}
+            {/* BADGES - Mantienen tu estilo y lógica de color */}
             <div style={{ marginBottom: '10px' }}>
               <span
                 className="badge"
@@ -106,7 +78,7 @@ export default function IncidentList() {
             {/* TÍTULO */}
             <h3>{incident.title}</h3>
 
-            {/* ACCIONES */}
+            {/* ACCIONES - Mantenemos tus clases btn, btn-danger y btn-edit */}
             <div style={{ marginTop: '10px' }}>
               <Link to={`/incidencia/${incident.id}`}>
                 Ver detalle
@@ -132,7 +104,7 @@ export default function IncidentList() {
         ))}
 
         {filteredIncidents.length === 0 && (
-          <p>No se encontraron incidencias.</p>
+          <p>No se encontraron incidencias. ¡Crea una nueva!</p>
         )}
       </div>
     </div>
