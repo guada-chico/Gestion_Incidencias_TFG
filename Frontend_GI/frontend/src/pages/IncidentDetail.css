@@ -4,6 +4,7 @@
   max-width: 1400px !important; /* Nuevo límite mucho más amplio */
   margin: 0 auto;
   padding: 20px 0;
+  padding-top: 10px !important;
 }
 
 .detail-card {
