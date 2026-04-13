@@ -1,0 +1,86 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.form-card {
+    background: #fff;
+    padding: 40px;
+    border-radius: 16px;
+    border: 2px solid #ddd;
+    box-shadow: 0 4px 20px rgba(40, 38, 51, 0.08);
+    width: 100%;
+    max-width: 700px; /* Ancho ideal para formularios */
+}
+
+.form-title {
+    color: var(--kyocera-red);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: bold;
+    font-size: 18px;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.char-counter {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.btn-submit-full {
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+    font-size: 16px !important;
+    height: 48px !important;
+    border-radius: 8px !important;
+}
+
+.form-textarea {
+    resize: none;
+    min-height: 100px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+/* Para asegurar que el color del placeholder sea consistente */
+.form-textarea::placeholder {
+    font-family: inherit;
+}
+
+/* Fuerza la fuente en los inputs de fecha y sus componentes internos */
+input[type="date"] {
+    font-family: inherit;
+    font-size: 14px;
+    color: #444; /* Para que el color coincida con el resto */
+}
+
+/* Específico para Chrome/Edge: arregla la fuente del texto dd/mm/aaaa */
+input[type="date"]::-webkit-datetime-edit,
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    font-family: inherit;
+}
