@@ -190,3 +190,143 @@
   color: var(--kyocera-red);
   font-weight: bold;
 }
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+/* Tablets (Menos de 1024px) */
+@media (max-width: 1024px) {
+  .detail-card {
+    width: 100% !important; /* Eliminamos el 110% para que no se salga */
+    left: 0;
+    transform: none;
+    padding: 30px;
+  }
+  
+  .detail-header h2 {
+    font-size: 26px;
+  }
+}
+
+/* Móviles (Menos de 768px) */
+@media (max-width: 768px) {
+  .detail-container {
+    width: 95% !important;
+    padding: 10px;
+  }
+
+  .detail-header {
+    flex-direction: column; /* Apilamos título y fecha límite */
+    gap: 10px;
+  }
+
+  .detail-header h2 {
+    font-size: 22px;
+  }
+
+  .limit-date {
+    font-size: 16px;
+  }
+
+  .tags-row {
+    flex-direction: column; /* Estado y Prioridad uno debajo del otro */
+    gap: 10px;
+  }
+
+  .tag-item {
+    font-size: 16px;
+  }
+
+  .description-text, 
+  .assigned-user, 
+  .date-item,
+  .comment-text {
+    font-size: 16px; /* Bajamos un poco el tamaño de fuente general */
+  }
+
+  .dates-grid {
+    grid-template-columns: 1fr; /* La rejilla de fechas pasa a ser una sola columna */
+    gap: 10px;
+  }
+
+  .comment-input-row {
+    flex-direction: column; /* El input y el botón enviar se apilan */
+  }
+
+  .comment-input-row .btn-search {
+    width: 100%; /* Botón enviar a ancho completo */
+  }
+}
+
+/* Móviles pequeños (Menos de 480px) */
+@media (max-width: 480px) {
+  .detail-card {
+    padding: 20px; /* Menos espacio interno para ganar pantalla */
+  }
+
+  .detail-header h2 {
+    font-size: 20px;
+  }
+  
+  .description-title {
+    font-size: 18px;
+  }
+}
+
+/* =========================
+   RESPONSIVE DESIGN FORM
+========================= */
+
+/* Tablets (Menos de 768px) */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 10px; /* Menos espacio alrededor en pantallas pequeñas */
+    }
+
+    .form-card {
+        padding: 25px; /* Reducimos el padding interno */
+    }
+
+    .form-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .form-row {
+        /* Pasamos de 2 columnas a 1 sola columna */
+        grid-template-columns: 1fr; 
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .form-label {
+        font-size: 16px; /* Ajustamos un poco el tamaño del texto */
+    }
+
+    .btn-submit-full {
+        height: 55px !important; /* Un poco más alto para facilitar el toque táctil */
+        font-size: 18px !important;
+    }
+}
+
+/* Móviles pequeños (Menos de 480px) */
+@media (max-width: 480px) {
+    .form-card {
+        padding: 15px;
+        border-width: 1px; /* Borde más fino para ganar espacio visual */
+    }
+
+    .form-title {
+        font-size: 20px;
+    }
+
+    .form-textarea {
+        min-height: 120px; /* Un poco más de espacio para escribir en móviles */
+    }
+
+    .char-counter {
+        display: block;
+        margin-top: 4px;
+    }
+}

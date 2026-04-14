@@ -204,7 +204,7 @@ body {
 }
 
 /* =========================
-   LOGIN PAGE
+   PÁGINA DE LOGIN
 ========================= */
 .login-page {
   min-height: 100vh;
@@ -212,37 +212,202 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: var(--bg);
+  background-color: var(--bg); /* Usa el gris clarito que definimos */
+  padding: 20px;
 }
 
+/* HEADER DEL LOGIN */
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-header img {
+  width: 180px; /* Logo de Kyocera un poco más grande aquí */
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.login-header h1 {
+  font-size: 2rem;
+  color: var(--text-main);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* CONTENEDOR DEL FORMULARIO */
 .login-container {
   background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 45px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px; /* Ancho ideal para formularios de login */
+  border: 1px solid var(--border);
 }
 
+/* EL FORMULARIO */
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 18px;
 }
 
 .login-form input {
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
+  width: 100%;
+  padding: 14px 16px;
   font-size: 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #fafafa;
 }
 
+.login-form input:focus {
+  border-color: var(--kyocera-red);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(229, 0, 45, 0.1);
+}
+
+/* BOTÓN DE ENTRAR/REGISTRO */
 .login-form button {
-  padding: 12px;
-  background: var(--kyocera-red);
+  margin-top: 10px;
+  padding: 14px;
+  background-color: var(--kyocera-red);
   color: white;
   border: none;
-  border-radius: 6px;
-  font-weight: bold;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.login-form button:hover {
+  background-color: #c40026; /* Un rojo un poco más oscuro */
+}
+
+.login-form button:active {
+  transform: scale(0.98);
+}
+
+/* SWITCH PARA CAMBIAR ENTRE LOGIN Y REGISTRO */
+.login-switch {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+.login-switch button {
+  background: none;
+  border: none;
+  color: var(--kyocera-red);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0 5px;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.login-switch button:hover {
+  color: #c40026;
+}
+
+/* RESPONSIVE LOGIN */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 30px 20px;
+  }
+  
+  .login-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .login-header img {
+    width: 140px;
+  }
+}
+
+/* =========================
+   RESPONSIVE DESIGN APP
+========================= */
+
+/* Tablets (Menos de 1024px) */
+@media (max-width: 1024px) {
+  .incident-grid {
+    /* Bajamos el mínimo a 300px para que quepan mejor las columnas en tablets */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .page-wrapper {
+    width: 95%;
+  }
+}
+
+/* Móviles (Menos de 768px) */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  /* El buscador pasa de fila a columna */
+  .search-form {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
+  .search-input, .flex-1, .flex-2, .btn-search {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .incident-grid {
+    /* Una sola columna en móviles */
+    grid-template-columns: 1fr;
+  }
+
+  .incident-card {
+    padding: 20px;
+  }
+
+  .incident-card h3 {
+    font-size: 18px;
+  }
+
+  /* Los botones de la tarjeta se apilan si son muy grandes */
+  .card-actions {
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    flex: 1; /* Los botones crecen para ocupar el ancho disponible */
+    min-width: 80px;
+  }
+}
+
+/* Móviles muy pequeños (Menos de 480px) */
+@media (max-width: 480px) {
+  .main-content {
+    padding: 10px;
+  }
+
+  .status-badge, .priority-badge {
+    font-size: 14px !important; /* Reducimos el tamaño gigante solo en móviles mini */
+  }
+
+  .info-row {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .login-container {
+    padding: 20px;
+    width: 90%;
+  }
 }
