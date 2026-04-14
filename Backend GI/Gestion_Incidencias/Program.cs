@@ -52,14 +52,14 @@ builder.Services.AddAuthorization();
 //Configuracion CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:5150") // URL de tu frontend
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
+    options.AddPolicy("NgrokPolicy", policy =>
+    {
+        policy.AllowAnyOrigin() // O pon tu URL de ngrok específica
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -77,7 +77,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 // Después de app.UseHttpsRedirection()
-app.UseCors("AllowFrontend");
+app.UseCors("NgrokPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
