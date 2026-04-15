@@ -35,8 +35,8 @@ export default function IncidentList({ incidents, setIncidents }) {
            (activeFilters.priority === '' || inc.priority === activeFilters.priority);
   });
 
-  const getStatusColor = (s) => ({'abierta': '#3498db', 'en proceso': '#f39c12', 'resuelta': '#2ecc71', 'cerrada': '#646464'}[s] || '#ccc');
-  const getPriorityColor = (p) => ({'baja': '#2ecc71', 'media': '#f1c40f', 'alta': '#e67e22', 'critica': '#e74c3c'}[p] || '#ccc');
+  const getStatusColor = (s) => ({'Abierta': '#3498db', 'EnProceso': '#f39c12', 'Resuelta': '#2ecc71', 'Cerrada': '#646464'}[s] || '#ccc');
+  const getPriorityColor = (p) => ({'Baja': '#2ecc71', 'Media': '#f1c40f', 'Alta': '#e67e22', 'Crítica': '#e74c3c'}[p] || '#ccc');
 
   return (
     <div className="incident-page">
@@ -52,17 +52,17 @@ export default function IncidentList({ incidents, setIncidents }) {
         />
         <select className="search-input flex-1" value={tempStatus} onChange={(e) => setTempStatus(e.target.value)}>
           <option value="">Estados</option>
-          <option value="abierta">Abierta</option>
-          <option value="en proceso">En proceso</option>
-          <option value="resuelta">Resuelta</option>
-          <option value="cerrada">Cerrada</option>
+          <option value="Abierta">Abierta</option>
+          <option value="EnProceso">En proceso</option>
+          <option value="Resuelta">Resuelta</option>
+          <option value="Cerrada">Cerrada</option>
         </select>
         <select className="search-input flex-1" value={tempPriority} onChange={(e) => setTempPriority(e.target.value)}>
           <option value="">Prioridades</option>
-          <option value="baja">Baja</option>
-          <option value="media">Media</option>
-          <option value="alta">Alta</option>
-          <option value="critica">Crítica</option>
+          <option value="Baja">Baja</option>
+          <option value="Media">Media</option>
+          <option value="Alta">Alta</option>
+          <option value="Crítica">Crítica</option>
         </select>
         <button type="submit" className="btn-search">
           <Search size={18}/> BUSCAR

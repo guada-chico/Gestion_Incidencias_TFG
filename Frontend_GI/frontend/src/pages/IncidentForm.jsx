@@ -10,8 +10,8 @@ export default function IncidentForm({ onAdd, incidents = [], setIncidents }) {
   const [formData, setFormData] = useState({ 
     title: '', 
     description: '', 
-    status: 'abierta', 
-    priority: 'media', 
+    status: 'Abierta', 
+    priority: 'Media', 
     assignedUser: '', 
     FechaLimite: '' 
   });
@@ -114,20 +114,20 @@ export default function IncidentForm({ onAdd, incidents = [], setIncidents }) {
             <div className="form-group">
               <label className="form-label">Estado</label>
               <select className="search-input" value={formData.status} onChange={(e) => setFormData({...formData, status: e.target.value})}>
-                <option value="abierta">Abierta</option>
-                <option value="en proceso">En proceso</option>
-                <option value="resuelta">Resuelta</option>
-                <option value="cerrada">Cerrada</option>
+                <option value="Abierta">Abierta</option>
+                <option value="EnProceso">En proceso</option>
+                <option value="Resuelta">Resuelta</option>
+                <option value="Cerrada">Cerrada</option>
               </select>
             </div>
             
             <div className="form-group">
               <label className="form-label"><AlertCircle size={18} color='var(--kyocera-red)'/> Prioridad</label>
               <select className="search-input" value={formData.priority} onChange={(e) => setFormData({...formData, priority: e.target.value})}>
-                <option value="baja">Baja</option>
-                <option value="media">Media</option>
-                <option value="alta">Alta</option>
-                <option value="critica">Crítica</option>
+                <option value="Baja">Baja</option>
+                <option value="Media">Media</option>
+                <option value="Alta">Alta</option>
+                <option value="Crítica">Crítica</option>
               </select>
             </div>
           </div>
