@@ -6,7 +6,6 @@ namespace Kyocera.Microservice.Models.Models
         public int Id { get; set; }
         public string Titulo { get; set; }
         public string Descripcion { get; set; }
-        public string UsuarioAsignado { get; set; }
         public Estado Estado { get; set; }
         public Estado Prioridad { get; set; }
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;

@@ -52,7 +52,7 @@ namespace Kyocera.Microservice.Application.Services
 
         private string GenerateToken(string usuario)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("clave_super_secreta_256Bits!_OK12"));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]

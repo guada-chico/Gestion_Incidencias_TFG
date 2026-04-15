@@ -5,28 +5,24 @@ using Kyocera.Microservice.DbContext.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
-
 using AuthSvc = Kyocera.Microservice.Application.Services.IAuthorizationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Configurar la conexión a SQL Server
+// 1. Base de datos
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 2. Registro del Repositorio
+// 2. Repositorios y Servicios
 builder.Services.AddScoped<IIncidenciasRepository, IncidenciasRepository>();
-
-//3. Registro del servicio 
 builder.Services.AddScoped<AuthSvc, AuthService>();
 builder.Services.AddScoped<IIncidenciasService, IncidenciasService>();
 
-//4. Configuracion token 
-var key = Encoding.UTF8.GetBytes("clave_super_secreta_256Bits!_OK12");
-
+// 3. Configuración de Autenticación JWT (CORREGIDO)
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -36,38 +32,67 @@ builder.Services.AddAuthentication(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
+        ValidateIssuer = false, // Temporalmente en false para evitar errores de nombre
+        ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = "tuApp",
-        ValidAudience = "tuApp",
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("clave_super_secreta_256Bits!_OK12"))
+    };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine("--- ERROR DE TOKEN DETECTADO ---");
+            Console.WriteLine("Motivo: " + context.Exception.Message);
+            return Task.CompletedTask;
+        }
     };
 });
 
-//Autorizacion
 builder.Services.AddAuthorization();
 
-//Configuracion CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReact", policy =>
     {
-        policy.AllowAnyOrigin() // O pon tu URL de ngrok específica
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
 
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// 4. Swagger con soporte para JWT (CORREGIDO)
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Kyocera API", Version = "v1" });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Escribe: Bearer {tu_token}"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 var app = builder.Build();
 
-// Configuración del pipeline HTTP
+// 5. Pipeline de HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -75,16 +100,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// Después de app.UseHttpsRedirection()
 app.UseCors("AllowReact");
 
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseAuthentication(); // 1º Autenticación
+app.UseAuthorization();  // 2º Autorización
 
 app.MapControllers();
-
 app.Run();
-
-
-

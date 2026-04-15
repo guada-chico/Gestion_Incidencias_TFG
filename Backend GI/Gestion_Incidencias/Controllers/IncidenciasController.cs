@@ -45,8 +45,10 @@ namespace Kyocera.Microservice.Controllers
                 }
             }
 
-            if (!string.IsNullOrEmpty(filter.Usuario))
-                incidencias = incidencias.Where(i => i.UsuarioAsignado.Contains(filter.Usuario));
+            if (filter.Id.HasValue && filter.Id > 0)
+            {
+                incidencias = incidencias.Where(i => i.Id == filter.Id.Value);
+            }
 
             // Paginación: asegurar valores por defecto válidos
             if (filter.PageNumber <= 0) filter.PageNumber = 1;
