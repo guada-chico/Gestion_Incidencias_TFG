@@ -1,5 +1,5 @@
 // auth-service.js
-import { API_BASE_URL, saveToken, removeToken } from '../api-config';
+import { API_BASE_URL, saveToken, removeToken } from "./api-config";
 
 export const login = async (usuario, password) => {
     const response = await fetch(`${API_BASE_URL}/Authenticator/login`, {

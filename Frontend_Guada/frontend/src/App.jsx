@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import NavBar from './components/NavBar'
 import IncidentList from './pages/IncidentList'
 import IncidentForm from './pages/IncidentForm'
 import IncidentDetail from './pages/IncidentDetail'

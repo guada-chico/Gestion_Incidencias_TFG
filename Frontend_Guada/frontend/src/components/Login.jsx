@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import kyoImg from '../assets/Kyocera_logo.svg.png'
-import { login, register } from '../Services/auth-service' 
+import { login, register } from '../services/auth-service' 
 
 export default function Login() {
   const [name, setName] = useState('')
