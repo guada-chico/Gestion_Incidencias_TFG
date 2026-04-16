@@ -52,7 +52,7 @@ export default function IncidentList({ incidents, setIncidents }) {
     const matches = matchesSearch && matchesStatus && matchesPriority;
     console.log('Incidencia:', inc.Titulo, '| Estado:', inc.Estado, '(', incidenciaEstado, ') | Matches:', matches);
     
-    return matches;
+    return inc;
   });
 
   console.log('Filtered incidents:', filteredIncidents.length);
