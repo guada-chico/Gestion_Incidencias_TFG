@@ -39,7 +39,7 @@ namespace Kyocera.Microservice.Controllers
 
             if (!string.IsNullOrEmpty(filter.Prioridad))
             {
-                if (Enum.TryParse<Estado>(filter.Prioridad, true, out var prioridadEnum))
+                if (Enum.TryParse<Prioridad>(filter.Prioridad, true, out var prioridadEnum))
                 {
                     incidencias = incidencias.Where(i => i.Prioridad == prioridadEnum);
                 }
