@@ -5,11 +5,11 @@ using AuthSvc = Kyocera.Microservice.Application.Services.IAuthorizationService;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthenticatorController : ControllerBase
 {
     private readonly AuthSvc _authService;
 
-    public AuthController(AuthSvc authService)
+    public AuthenticatorController(AuthSvc authService)
     {
         _authService = authService;
     }
@@ -22,7 +22,7 @@ public class AuthController : ControllerBase
             if (request == null)
                 return BadRequest("El cuerpo de la petición no puede estar vacío");
 
-            var token = _authService.Authenticate(request.Usuario, request.Password);
+            var token = _authService.Authenticate(request.Email, request.Password);
 
             if (token == null)
                 return Unauthorized(new { message = "Credenciales incorrectas" });
@@ -45,7 +45,7 @@ public class AuthController : ControllerBase
             if (request == null)
                 return BadRequest("El cuerpo de la petición no puede estar vacío");
 
-            var success = _authService.Register(request.Usuario, request.Password);
+            var success = _authService.Register(request.Email, request.Password);
 
             if (!success)
                 return BadRequest(new { message = "El usuario ya existe" });

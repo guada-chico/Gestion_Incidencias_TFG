@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 import kyoImg from '../assets/Kyocera_logo.svg.png'
 import { login, register } from '../services/auth-service' 
 
-export default function Login() {
+export default function Login({ setToken }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -49,9 +49,11 @@ export default function Login() {
     } else {
       try {
         // --- CONEXIÓN CON EL BACKEND ---
-        // Pasamos 'email' que es tu variable del estado, 
-        // pero el servicio se encargará de enviarlo como "Usuario"
+        // Pasamos 'email' como identificador del usuario
         await login(email, password); 
+
+        // Actualizar el estado en App.jsx
+        setToken(localStorage.getItem('token'))
 
         Swal.fire({
           icon: 'success',

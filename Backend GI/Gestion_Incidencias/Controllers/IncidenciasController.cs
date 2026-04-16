@@ -50,9 +50,9 @@ namespace Kyocera.Microservice.Controllers
                 incidencias = incidencias.Where(i => i.Id == filter.Id.Value);
             }
 
-            // Paginación: asegurar valores por defecto válidos
+            // PaginaciÃ³n: asegurar valores por defecto vÃ¡lidos
             if (filter.PageNumber <= 0) filter.PageNumber = 1;
-            if (filter.PageSize <= 0) filter.PageSize = 10;
+            if (filter.PageSize <= 0) filter.PageSize = 100; // Aumentado a 100 para obtener mÃ¡s resultados por defecto
 
             var totalItems = incidencias.Count();
             var totalPages = (int)Math.Ceiling(totalItems / (double)filter.PageSize);
@@ -62,7 +62,7 @@ namespace Kyocera.Microservice.Controllers
                 .Take(filter.PageSize)
                 .ToList();
 
-            // Respuesta con paginación
+            // Respuesta con paginaciï¿½n
             var response = new
             {
                 PageNumber = filter.PageNumber,
@@ -116,6 +116,7 @@ namespace Kyocera.Microservice.Controllers
             existing.Estado = incidencia.Estado;
             existing.Prioridad = incidencia.Prioridad;
             existing.FechaLimite = incidencia.FechaLimite;
+            existing.UsuarioAsignado = incidencia.UsuarioAsignado;
   
 
           await _repository.UpdateAsync(existing); 

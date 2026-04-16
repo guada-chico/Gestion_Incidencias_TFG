@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { API_BASE_URL, authHeader } from '../services/api-config'; // Importante para la conexión
 import './IncidentForm.css';
 
-export default function IncidentForm({ incidents = [], setIncidents }) {
+export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
   const { id } = useParams();
   const navigate = useNavigate();
   
@@ -27,12 +27,15 @@ export default function IncidentForm({ incidents = [], setIncidents }) {
 
   useEffect(() => {
     if (id) {
-      // CORRECCIÓN: Buscar por 'Id' en mayúscula
+      // Buscar por 'Id' en PascalCase
       const existing = incidents.find(inc => inc.Id === parseInt(id));
       if (existing) {
         setFormData({
-          ...existing,
-          // Aseguramos que la fecha tenga el formato correcto para el input date
+          Titulo: existing.Titulo || '',
+          Descripcion: existing.Descripcion || '',
+          Estado: existing.Estado || 0,
+          Prioridad: existing.Prioridad || 0,
+          UsuarioAsignado: existing.UsuarioAsignado || '',
           FechaLimite: existing.FechaLimite ? existing.FechaLimite.split('T')[0] : ''
         });
       }
@@ -42,12 +45,36 @@ export default function IncidentForm({ incidents = [], setIncidents }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validación básica
+    if (!formData.Titulo?.trim()) {
+      Swal.fire({ 
+        icon: 'error', 
+        title: 'Error', 
+        text: 'El título es requerido',
+        confirmButtonColor: 'var(--kyocera-red)'
+      });
+      return;
+    }
+
+    if (!formData.Descripcion?.trim()) {
+      Swal.fire({ 
+        icon: 'error', 
+        title: 'Error', 
+        text: 'La descripción es requerida',
+        confirmButtonColor: 'var(--kyocera-red)'
+      });
+      return;
+    }
+
     // Preparamos el objeto EXACTO que espera el Backend
     const incidentToSend = {
-      ...formData,
-      Id: id ? parseInt(id) : 0,
+      Titulo: formData.Titulo.trim(),
+      Descripcion: formData.Descripcion.trim(),
       Estado: parseInt(formData.Estado),
-      Prioridad: parseInt(formData.Prioridad)
+      Prioridad: parseInt(formData.Prioridad),
+      UsuarioAsignado: formData.UsuarioAsignado?.trim() || null,
+      FechaLimite: formData.FechaLimite || null, // Enviar null si está vacío, no string vacía
+      Id: id ? parseInt(id) : 0
     };
 
     try {
@@ -64,16 +91,38 @@ export default function IncidentForm({ incidents = [], setIncidents }) {
         body: JSON.stringify(incidentToSend)
       });
 
-      if (!response.ok) throw new Error('Error al guardar la incidencia');
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Error desconocido' }));
+        throw new Error(errorData.message || `Error ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      console.log('Incidencia guardada:', responseData);
+
+      // Refrescar la lista ANTES de mostrar el alert
+      if (typeof onAdd === 'function') {
+        console.log('Refrescando lista antes de navegar...');
+        await onAdd();
+        console.log('Lista refrescada');
+      }
 
       Swal.fire({ 
         icon: 'success', 
         title: id ? 'Actualizado' : '¡Creada!', 
         confirmButtonColor: 'var(--kyocera-red)' 
-      }).then(() => navigate('/incidents'));
+      }).then(() => {
+        console.log('Navegando a /');
+        navigate('/');
+      });
 
     } catch (error) {
-      Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+      console.error('Error al guardar:', error);
+      Swal.fire({ 
+        icon: 'error', 
+        title: 'Error', 
+        text: error.message,
+        confirmButtonColor: 'var(--kyocera-red)'
+      });
     }
   };
 

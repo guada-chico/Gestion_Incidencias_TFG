@@ -16,12 +16,21 @@ function App() {
   // 1. FUNCIÓN PARA CARGAR DATOS DEL BACKEND
   const fetchIncidents = async () => {
     try {
+      console.log('Obteniendo incidencias desde:', `${API_BASE_URL}/incidencias`);
       const response = await fetch(`${API_BASE_URL}/incidencias`, {
         headers: authHeader() // Enviamos el token para que el Back nos deje pasar
       })
+      console.log('Response status:', response.status);
+      
       if (response.ok) {
         const data = await response.json()
-        setIncidents(data) // Guardamos las incidencias reales
+        
+const incidenciasList = data.Data || data.data || (Array.isArray(data) ? data : []);
+  
+  console.log('Lista final para el estado:', incidenciasList);
+  setIncidents(incidenciasList);
+      } else {
+        console.error('Error en respuesta:', response.statusText);
       }
     } catch (error) {
       console.error("Error conectando con el backend:", error)

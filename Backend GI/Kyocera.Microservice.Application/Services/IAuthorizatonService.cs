@@ -8,7 +8,7 @@ namespace Kyocera.Microservice.Application.Services
 {
     public interface IAuthorizationService
     {
-      string? Authenticate(string usuario, string password);
-      bool Register(string usuario, string password);
+      string? Authenticate(string email, string password);
+      bool Register(string email, string password);
     }
 }

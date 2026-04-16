@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
+using System.Text.Json.Serialization;
 using AuthSvc = Kyocera.Microservice.Application.Services.IAuthorizationService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // 2. Repositorios y Servicios
 builder.Services.AddScoped<IIncidenciasRepository, IncidenciasRepository>();
+builder.Services.AddScoped<IUsuariosRepository, UsuariosRepository>();
 builder.Services.AddScoped<AuthSvc, AuthService>();
 builder.Services.AddScoped<IIncidenciasService, IncidenciasService>();
 
@@ -63,6 +65,12 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
+// Configuración para rutas case-insensitive
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.LowercaseUrls = true;
+});
+
 // 4. Swagger con soporte para JWT (CORREGIDO)
 builder.Services.AddSwaggerGen(c =>
 {
@@ -99,15 +107,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 app.UseCors("AllowReact");
+app.UseHttpsRedirection();
 
 app.UseAuthentication(); // 1º Autenticación
 app.UseAuthorization();  // 2º Autorización
 
 app.MapControllers();
-
-// 6. CORS
-app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.Run();

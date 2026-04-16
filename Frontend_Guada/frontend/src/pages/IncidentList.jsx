@@ -9,6 +9,16 @@ export default function IncidentList({ incidents, setIncidents }) {
   const [tempPriority, setTempPriority] = useState('');
   const [activeFilters, setActiveFilters] = useState({ search: '', status: '', priority: '' });
 
+  // Mapeos de Enums
+  const estadoMap = { 0: 'Abierta', 1: 'EnProgreso', 2: 'Resuelta', 3: 'Cerrada' };
+  const prioridadMap = { 0: 'Baja', 1: 'Media', 2: 'Alta', 3: 'Crítica' };
+
+  const getStatusLabel = (estado) => estadoMap[estado] || String(estado);
+  const getPriorityLabel = (prioridad) => prioridadMap[prioridad] || String(prioridad);
+
+  console.log('IncidentList recibió incidencias:', incidents);
+  console.log('Incidencias count:', incidents?.length);
+
   const handleSearch = (e) => {
     e.preventDefault();
     setActiveFilters({ search: tempSearch, status: tempStatus, priority: tempPriority });
@@ -31,13 +41,21 @@ export default function IncidentList({ incidents, setIncidents }) {
   };
 
   const filteredIncidents = incidents.filter(inc => {
-    // CORRECCIÓN: Usar nombres exactos del Backend (Titulo, Estado, Prioridad)
-    const matchesSearch = inc.Titulo?.toLowerCase().includes(activeFilters.search.toLowerCase());
-    const matchesStatus = activeFilters.status === '' || String(inc.Estado) === activeFilters.status;
-    const matchesPriority = activeFilters.priority === '' || String(inc.Prioridad) === activeFilters.priority;
+    // Convertir enums a strings para comparar
+    const incidenciaEstado = getStatusLabel(inc.Estado);
+    const incidenciaPrioridad = getPriorityLabel(inc.Prioridad);
     
-    return matchesSearch && matchesStatus && matchesPriority;
+    const matchesSearch = inc.Titulo?.toLowerCase().includes(activeFilters.search.toLowerCase());
+    const matchesStatus = activeFilters.status === '' || incidenciaEstado === activeFilters.status;
+    const matchesPriority = activeFilters.priority === '' || incidenciaPrioridad === activeFilters.priority;
+    
+    const matches = matchesSearch && matchesStatus && matchesPriority;
+    console.log('Incidencia:', inc.Titulo, '| Estado:', inc.Estado, '(', incidenciaEstado, ') | Matches:', matches);
+    
+    return matches;
   });
+
+  console.log('Filtered incidents:', filteredIncidents.length);
 
   // CORRECCIÓN: El backend devuelve EnProgreso sin espacio (según Estado.cs)
   const getStatusColor = (s) => ({
@@ -67,14 +85,14 @@ export default function IncidentList({ incidents, setIncidents }) {
           onChange={(e) => setTempSearch(e.target.value)} 
         />
         <select className="search-input flex-1" value={tempStatus} onChange={(e) => setTempStatus(e.target.value)}>
-          <option value="">Todos los Estados</option>
+          <option value="">Estados</option>
           <option value="Abierta">Abierta</option>
           <option value="EnProgreso">En proceso</option>
           <option value="Resuelta">Resuelta</option>
           <option value="Cerrada">Cerrada</option>
         </select>
         <select className="search-input flex-1" value={tempPriority} onChange={(e) => setTempPriority(e.target.value)}>
-          <option value="">Todas las Prioridades</option>
+          <option value="">Prioridades</option>
           <option value="Baja">Baja</option>
           <option value="Media">Media</option>
           <option value="Alta">Alta</option>
@@ -89,12 +107,12 @@ export default function IncidentList({ incidents, setIncidents }) {
         {filteredIncidents.map(incident => (
           <div key={incident.Id} className="incident-card">
             <div className="card-header">
-              {/* CORRECCIÓN: Acceso a propiedades en PascalCase */}
-              <span style={{ color: getStatusColor(incident.Estado) }} className="status-badge">
-                {String(incident.Estado).toUpperCase()}
+              {/* Convertir enums a strings usando mapeos */}
+              <span style={{ color: getStatusColor(getStatusLabel(incident.Estado)) }} className="status-badge">
+                {getStatusLabel(incident.Estado).toUpperCase()}
               </span>
-              <span style={{ color: getPriorityColor(incident.Prioridad) }} className="priority-badge">
-                {String(incident.Prioridad).toUpperCase()}
+              <span style={{ color: getPriorityColor(getPriorityLabel(incident.Prioridad)) }} className="priority-badge">
+                {getPriorityLabel(incident.Prioridad).toUpperCase()}
               </span>
             </div>
             
@@ -105,7 +123,6 @@ export default function IncidentList({ incidents, setIncidents }) {
             <div className="card-footer-content">
               <p className="info-row assigned-row">
                 <User size={20}/> 
-                {/* CORRECCIÓN: 'UsuarioAsignado' en lugar de 'assignedUser' */}
                 <span>Asignado a: {incident.UsuarioAsignado || 'Sin asignar'}</span>
               </p>
               <p className="info-row date-row">

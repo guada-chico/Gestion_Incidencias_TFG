@@ -1,5 +1,5 @@
 // api-config.js
-export const API_BASE_URL = 'http://localhost:5150/api'; 
+export const API_BASE_URL = 'https://localhost:7220/api'; 
 
 export const saveToken = (token) => localStorage.setItem('token', token);
 export const removeToken = () => localStorage.removeItem('token');

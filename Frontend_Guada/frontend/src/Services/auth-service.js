@@ -1,11 +1,11 @@
 // auth-service.js
 import { API_BASE_URL, saveToken, removeToken } from "./api-config";
 
-export const login = async (usuario, password) => {
+export const login = async (email, password) => {
     const response = await fetch(`${API_BASE_URL}/Authenticator/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ usuario, password }) // Coincide con LoginRequest.cs
+        body: JSON.stringify({ Email: email, Password: password })
     });
 
     if (!response.ok) throw new Error('Credenciales incorrectas');
@@ -15,11 +15,11 @@ export const login = async (usuario, password) => {
     return data;
 };
 
-export const register = async (usuario, password) => {
+export const register = async (email, password) => {
     const response = await fetch(`${API_BASE_URL}/Authenticator/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ Usuario: usuario, Password: password })
+        body: JSON.stringify({ Email: email, Password: password })
     });
     return await response.text();
 };
