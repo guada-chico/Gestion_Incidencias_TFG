@@ -1,8 +1,8 @@
-// src/components/Login.jsx
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import kyoImg from '../assets/Kyocera_logo.svg.png'
+import { login, register } from '../Services/auth-service' 
 
 export default function Login() {
   const [name, setName] = useState('')
@@ -13,7 +13,7 @@ export default function Login() {
 
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => { // Añadimos async para poder usar await
     e.preventDefault()
 
     if (isRegister) {
@@ -27,21 +27,51 @@ export default function Login() {
         return
       }
 
-      Swal.fire({
-        icon: 'success',
-        title: 'Registro completado',
-        confirmButtonColor: 'var(--kyocera-red)'
-      }).then(() => setIsRegister(false))
+      try {
+        // Llamada real al registro del backend
+        await register(email, password); 
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Registro completado',
+          text: 'Ahora puedes iniciar sesión',
+          confirmButtonColor: 'var(--kyocera-red)'
+        }).then(() => setIsRegister(false))
+      } catch (err) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de registro',
+          text: err.message,
+          confirmButtonColor: 'var(--kyocera-red)'
+        })
+      }
 
     } else {
-      Swal.fire({
-        icon: 'success',
-        title: 'Bienvenido',
-        text: `Hola ${name}👋`,
-        confirmButtonColor: 'var(--kyocera-red)'
-      }).then(() => navigate('/'))
+      try {
+        // --- CONEXIÓN CON EL BACKEND ---
+        // Pasamos 'email' que es tu variable del estado, 
+        // pero el servicio se encargará de enviarlo como "Usuario"
+        await login(email, password); 
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Bienvenido',
+          text: `Sesión iniciada correctamente`,
+          confirmButtonColor: 'var(--kyocera-red)'
+        }).then(() => navigate('/'))
+
+      } catch (err) {
+        // Si el backend devuelve 401 o error de red, caerá aquí
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de acceso',
+          text: 'Usuario o contraseña incorrectos',
+          confirmButtonColor: 'var(--kyocera-red)'
+        })
+      }
     }
 
+    // Limpiamos los campos
     setName('')
     setEmail('')
     setPassword('')
@@ -50,17 +80,13 @@ export default function Login() {
 
   return (
     <div className="login-page">
-
-      {/* HEADER LOGIN */}
       <div className="login-header">
         <img src={kyoImg} alt="Kyocera Logo" />
         <h1>Gestión de Incidencias</h1>
       </div>
 
-      {/* FORM */}
       <div className="login-container">
         <form onSubmit={handleSubmit} className="login-form">
-
           {isRegister && (
             <input
               type="text"
@@ -109,7 +135,6 @@ export default function Login() {
           </button>
         </p>
       </div>
-
     </div>
   )
 }

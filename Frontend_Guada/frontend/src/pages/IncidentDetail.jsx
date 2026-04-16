@@ -38,7 +38,7 @@ export default function IncidentDetail({ incidents, setIncidents }) {
         
         {/* TÍTULO PRINCIPAL */}
         <div className="detail-header">
-          <h2>{incident.title}</h2>
+          <h2>{incident.Titulo}</h2>
           <div className="limit-date">
             <ShieldAlert size={16} /> Límite: {formatLimitDate(incident.FechaLimite)}
           </div>
@@ -47,14 +47,14 @@ export default function IncidentDetail({ incidents, setIncidents }) {
         {/* ETIQUETAS RÁPIDAS */}
         <div className="tags-row">
           <div className="tag-item">
-            <Info size={16} color={getStatusColor(incident.status)} />
+            <Info size={16} color={getStatusColor(incident.Estado)} />
             <strong>Estado:</strong> 
-            <span style={{ color: getStatusColor(incident.status) }}>{incident.status.toUpperCase()}</span>
+            <span style={{ color: getStatusColor(incident.Estado) }}>{incident.Estado.toUpperCase()}</span>
           </div>
           <div className="tag-item">
-            <Tag size={16} color={getPriorityColor(incident.priority)} />
+            <Tag size={16} color={getPriorityColor(incident.Prioridad)} />
             <strong>Prioridad:</strong> 
-            <span style={{ color: getPriorityColor(incident.priority) }}>{incident.priority.toUpperCase()}</span>
+            <span style={{ color: getPriorityColor(incident.Prioridad) }}>{incident.Prioridad.toUpperCase()}</span>
           </div>
         </div>
 
@@ -80,7 +80,7 @@ export default function IncidentDetail({ incidents, setIncidents }) {
             lineHeight: '1.6',
             color: '#444'
           }}>
-            {incident.description}
+            {incident.Descripcion}
           </p>
         </div>
         

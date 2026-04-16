@@ -23,20 +23,36 @@ export default function IncidentList({ incidents, setIncidents }) {
       confirmButtonText: 'Sí, eliminar'
     }).then((result) => {
       if (result.isConfirmed) {
-        setIncidents(incidents.filter(inc => inc.id !== id));
+        // CORRECCIÓN: Usar 'Id' en mayúscula para coincidir con el Back
+        setIncidents(incidents.filter(inc => inc.Id !== id));
         Swal.fire('Eliminado', '', 'success');
       }
     });
   };
 
   const filteredIncidents = incidents.filter(inc => {
-    return inc.title.toLowerCase().includes(activeFilters.search.toLowerCase()) &&
-           (activeFilters.status === '' || inc.status === activeFilters.status) &&
-           (activeFilters.priority === '' || inc.priority === activeFilters.priority);
+    // CORRECCIÓN: Usar nombres exactos del Backend (Titulo, Estado, Prioridad)
+    const matchesSearch = inc.Titulo?.toLowerCase().includes(activeFilters.search.toLowerCase());
+    const matchesStatus = activeFilters.status === '' || String(inc.Estado) === activeFilters.status;
+    const matchesPriority = activeFilters.priority === '' || String(inc.Prioridad) === activeFilters.priority;
+    
+    return matchesSearch && matchesStatus && matchesPriority;
   });
 
-  const getStatusColor = (s) => ({'Abierta': '#3498db', 'EnProceso': '#f39c12', 'Resuelta': '#2ecc71', 'Cerrada': '#646464'}[s] || '#ccc');
-  const getPriorityColor = (p) => ({'Baja': '#2ecc71', 'Media': '#f1c40f', 'Alta': '#e67e22', 'Crítica': '#e74c3c'}[p] || '#ccc');
+  // CORRECCIÓN: El backend devuelve EnProgreso sin espacio (según Estado.cs)
+  const getStatusColor = (s) => ({
+    'Abierta': '#3498db', 
+    'EnProgreso': '#f39c12', 
+    'Resuelta': '#2ecc71', 
+    'Cerrada': '#646464'
+  }[s] || '#ccc');
+
+  const getPriorityColor = (p) => ({
+    'Baja': '#2ecc71', 
+    'Media': '#f1c40f', 
+    'Alta': '#e67e22', 
+    'Crítica': '#e74c3c'
+  }[p] || '#ccc');
 
   return (
     <div className="incident-page">
@@ -51,14 +67,14 @@ export default function IncidentList({ incidents, setIncidents }) {
           onChange={(e) => setTempSearch(e.target.value)} 
         />
         <select className="search-input flex-1" value={tempStatus} onChange={(e) => setTempStatus(e.target.value)}>
-          <option value="">Estados</option>
+          <option value="">Todos los Estados</option>
           <option value="Abierta">Abierta</option>
-          <option value="EnProceso">En proceso</option>
+          <option value="EnProgreso">En proceso</option>
           <option value="Resuelta">Resuelta</option>
           <option value="Cerrada">Cerrada</option>
         </select>
         <select className="search-input flex-1" value={tempPriority} onChange={(e) => setTempPriority(e.target.value)}>
-          <option value="">Prioridades</option>
+          <option value="">Todas las Prioridades</option>
           <option value="Baja">Baja</option>
           <option value="Media">Media</option>
           <option value="Alta">Alta</option>
@@ -71,43 +87,47 @@ export default function IncidentList({ incidents, setIncidents }) {
 
       <div className="incident-grid">
         {filteredIncidents.map(incident => (
-          <div key={incident.id} className="incident-card">
+          <div key={incident.Id} className="incident-card">
             <div className="card-header">
-              <span style={{ color: getStatusColor(incident.status) }} className="status-badge">
-                {incident.status.toUpperCase()}
+              {/* CORRECCIÓN: Acceso a propiedades en PascalCase */}
+              <span style={{ color: getStatusColor(incident.Estado) }} className="status-badge">
+                {String(incident.Estado).toUpperCase()}
               </span>
-              <span style={{ color: getPriorityColor(incident.priority) }} className="priority-badge">
-                {incident.priority.toUpperCase()}
+              <span style={{ color: getPriorityColor(incident.Prioridad) }} className="priority-badge">
+                {String(incident.Prioridad).toUpperCase()}
               </span>
             </div>
             
             <h3 className="card-title">
-              {incident.title}
+              {incident.Titulo}
             </h3>
             
-            {/* Contenedor que se alinea al fondo de la card */}
             <div className="card-footer-content">
               <p className="info-row assigned-row">
-                <User size={20}/> <span>Asignado a: {incident.assignedUser || 'Sin asignar'}</span>
+                <User size={20}/> 
+                {/* CORRECCIÓN: 'UsuarioAsignado' en lugar de 'assignedUser' */}
+                <span>Asignado a: {incident.UsuarioAsignado || 'Sin asignar'}</span>
               </p>
               <p className="info-row date-row">
-                <Calendar size={20}/> <span>Fecha creación: {incident.FechaCreacion}</span>
+                <Calendar size={20}/> 
+                <span>Fecha creación: {new Date(incident.FechaCreacion).toLocaleDateString()}</span>
               </p>
               
               <div className="card-actions">
-                <Link className="btn btn-detail" to={`/incidencia/${incident.id}`}>
+                <Link className="btn btn-detail" to={`/incidencia/${incident.Id}`}>
                   <Eye size={18}/> Detalle
                 </Link>
-                <Link className="btn btn-edit" to={`/editar/${incident.id}`}>
+                <Link className="btn btn-edit" to={`/editar/${incident.Id}`}>
                   <Edit3 size={18}/> Editar
                 </Link>
-                <button className="btn btn-danger" onClick={() => handleDelete(incident.id)}>
+                <button className="btn btn-danger" onClick={() => handleDelete(incident.Id)}>
                   <Trash2 size={18}/> Borrar
                 </button>
               </div>
             </div>
           </div>
         ))}
+        {filteredIncidents.length === 0 && <p className="no-results">No se encontraron incidencias.</p>}
       </div>
     </div>
   );
