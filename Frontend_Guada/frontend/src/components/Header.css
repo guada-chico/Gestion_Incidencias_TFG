@@ -76,7 +76,7 @@
   .header-title {
     font-size: 1.3rem;
   }
-}
+}  
 
 /* Móviles grandes (menos de 768px) */
 @media (max-width: 768px) {
