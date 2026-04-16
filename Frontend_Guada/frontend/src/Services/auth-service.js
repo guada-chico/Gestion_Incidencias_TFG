@@ -1,5 +1,5 @@
 // auth-service.js
-import { API_BASE_URL, saveToken, removeToken } from './api-config.js';
+import { API_BASE_URL, saveToken, removeToken } from '../api-config';
 
 export const login = async (usuario, password) => {
     const response = await fetch(`${API_BASE_URL}/Authenticator/login`, {
@@ -19,7 +19,7 @@ export const register = async (usuario, password) => {
     const response = await fetch(`${API_BASE_URL}/Authenticator/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ usuario, password })
+        body: JSON.stringify({ Usuario: usuario, Password: password })
     });
     return await response.text();
 };

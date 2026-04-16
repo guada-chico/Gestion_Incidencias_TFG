@@ -1,78 +1,73 @@
-import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import NavBar from './components/NavBar'
 import IncidentList from './pages/IncidentList'
-import IncidentDetail from './pages/IncidentDetail'
 import IncidentForm from './pages/IncidentForm'
+import IncidentDetail from './pages/IncidentDetail'
 import Login from './components/Login'
-import Header from './components/Header'
-import * as api from './services/incidencias-service' // Importamos tu lógica de conexión
+import { API_BASE_URL, authHeader } from './services/api-config'
 import './App.css'
 
-function AppLayout() {
-  // Verificación básica de seguridad: si no hay token, al login
-  const isAuthenticated = !!localStorage.getItem('token');
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+function App() {
+  const [incidents, setIncidents] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [token, setToken] = useState(localStorage.getItem('token'))
+
+  // 1. FUNCIÓN PARA CARGAR DATOS DEL BACKEND
+  const fetchIncidents = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/incidencias`, {
+        headers: authHeader() // Enviamos el token para que el Back nos deje pasar
+      })
+      if (response.ok) {
+        const data = await response.json()
+        setIncidents(data) // Guardamos las incidencias reales
+      }
+    } catch (error) {
+      console.error("Error conectando con el backend:", error)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  return (
-    <div className="app-layout">
-      <Header /> 
-      <main className="main-content">
-        <div className="page-wrapper">
-          <Outlet />
-        </div>
-      </main>
-    </div>
-  )
-}
-
-function App() {
-  const [incidents, setIncidents] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Cargar incidencias desde el Backend al iniciar
+  // 2. CARGAR AL INICIO (Y cada vez que el token cambie)
   useEffect(() => {
-    const fetchIncidents = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (token) {
-          const response = await api.getIncidencias(); 
-          // Según tu controlador, los datos vienen en la propiedad 'data'
-          setIncidents(response.data); 
-        }
-      } catch (error) {
-        console.error("Error cargando incidencias del servidor:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (token) {
+      fetchIncidents()
+    } else {
+      setLoading(false)
+    }
+  }, [token])
 
-    fetchIncidents();
-  }, []);
+  // Función para manejar el logout
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    setToken(null)
+  }
 
-  // Función para refrescar la lista después de crear/editar/borrar
-  const refreshData = async () => {
-    const response = await api.getIncidencias();
-    setIncidents(response.data);
-  };
-
-  if (loading) return <div>Cargando sistema de incidencias...</div>;
+  if (loading) return <div className="loading">Cargando conexión con Kyocera API...</div>
 
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route element={<AppLayout />}>
-          <Route path="/" element={<IncidentList incidents={incidents} setIncidents={setIncidents} onRefresh={refreshData} />} />
-          <Route path="/crear" element={<IncidentForm onRefresh={refreshData} />} />
-          <Route path="/editar/:id" element={<IncidentForm onRefresh={refreshData} />} />
-          <Route path="/incidencia/:id" element={<IncidentDetail onRefresh={refreshData} />} />
-        </Route>
-      </Routes>
+      <div className="app-container">
+        {/* Solo mostramos la NavBar si el usuario está logueado */}
+        {token && <NavBar onLogout={handleLogout} />}
+        
+        <main className="main-content">
+          <Routes>
+            {/* Si no hay token, mandamos siempre al Login */}
+            <Route path="/login" element={!token ? <Login setToken={setToken} /> : <Navigate to="/" />} />
+            
+            {/* Rutas Protegidas */}
+            <Route path="/" element={token ? <IncidentList incidents={incidents} setIncidents={setIncidents} /> : <Navigate to="/login" />} />
+            <Route path="/nueva" element={token ? <IncidentForm onAdd={fetchIncidents} /> : <Navigate to="/login" />} />
+            <Route path="/editar/:id" element={token ? <IncidentForm incidents={incidents} onAdd={fetchIncidents} /> : <Navigate to="/login" />} />
+            <Route path="/incidencia/:id" element={token ? <IncidentDetail incidents={incidents} /> : <Navigate to="/login" />} />
+          </Routes>
+        </main>
+      </div>
     </Router>
   )
 }
 
-export default App;
+export default App
