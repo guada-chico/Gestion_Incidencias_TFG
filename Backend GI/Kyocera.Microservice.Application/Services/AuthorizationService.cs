@@ -98,10 +98,10 @@ namespace Kyocera.Microservice.Application.Services
                 var hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(password + "salt_kyocera"));
                 return Convert.ToBase64String(hash);
             }
-        }
+    }
 
         private bool VerifyPassword(string password, string hash)
-        {
+    {
             var hashOfInput = HashPassword(password);
             return hashOfInput == hash;
         }
