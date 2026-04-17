@@ -56,10 +56,13 @@ body {
 ========================= */
 .incident-grid {
   display: grid;
-  /* Usamos un mínimo de 350px. Si no caben 3, pasará a 2 automáticamente sin montarse */
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 30px;
+  /* 3 columnas iguales */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
   width: 100%;
+  padding: 0 40px;
+  max-width: 1600px;
+  margin: 0 auto;
   /* Importante: permite que las filas crezcan según el contenido */
   grid-auto-rows: auto; 
 }
@@ -368,8 +371,9 @@ body {
   }
 
   .incident-grid {
-    /* Una sola columna en móviles */
-    grid-template-columns: 1fr;
+    /* 2 columnas en tablets */
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 20px;
   }
 
   .incident-card {
@@ -395,6 +399,12 @@ body {
 @media (max-width: 480px) {
   .main-content {
     padding: 10px;
+  }
+
+  .incident-grid {
+    /* 1 columna en móviles muy pequeños */
+    grid-template-columns: 1fr;
+    padding: 0 10px;
   }
 
   .status-badge, .priority-badge {
