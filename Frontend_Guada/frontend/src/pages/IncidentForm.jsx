@@ -23,7 +23,7 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
   const MAX_TITLE_LENGTH = 80;
 
   // Mapeo de Enums para el formulario (Texto -> Número)
-  const estadoMap = { "Abierta": 0, "EnProgreso": 1, "Resuelta": 2, "Cerrada": 3 };
+  const estadoMap = { "Abierta": 0, "En Progreso": 1, "Resuelta": 2, "Cerrada": 3 };
   const prioridadMap = { "Baja": 0, "Media": 1, "Alta": 2, "Crítica": 3 };
 
   useEffect(() => {
@@ -98,7 +98,11 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
         throw new Error(errorData.message || `Error ${response.status}`);
       }
 
-      const responseData = await response.json();
+      // Manejar respuestas sin JSON (204 No Content)
+      let responseData = null;
+      if (response.status !== 204) {
+        responseData = await response.json().catch(() => null);
+      }
       console.log('Incidencia guardada:', responseData);
 
       // Refrescar la lista ANTES de mostrar el alert
@@ -194,7 +198,7 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
               <label className="form-label">Estado</label>
               <select className="search-input" value={formData.Estado} onChange={(e) => setFormData({...formData, Estado: e.target.value})}>
                 <option value={0}>Abierta</option>
-                <option value={1}>En proceso</option>
+                <option value={1}>En Progreso</option>
                 <option value={2}>Resuelta</option>
                 <option value={3}>Cerrada</option>
               </select>

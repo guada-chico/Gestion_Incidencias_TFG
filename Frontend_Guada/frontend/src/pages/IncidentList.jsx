@@ -10,7 +10,7 @@ export default function IncidentList({ incidents, setIncidents }) {
   const [activeFilters, setActiveFilters] = useState({ search: '', status: '', priority: '' });
 
   // Mapeos de Enums
-  const estadoMap = { 0: 'Abierta', 1: 'EnProgreso', 2: 'Resuelta', 3: 'Cerrada' };
+  const estadoMap = { 0: 'Abierta', 1: 'En Progreso', 2: 'Resuelta', 3: 'Cerrada' };
   const prioridadMap = { 0: 'Baja', 1: 'Media', 2: 'Alta', 3: 'Crítica' };
 
   const getStatusLabel = (estado) => estadoMap[estado] || String(estado);
@@ -60,7 +60,7 @@ export default function IncidentList({ incidents, setIncidents }) {
   // CORRECCIÓN: El backend devuelve EnProgreso sin espacio (según Estado.cs)
   const getStatusColor = (s) => ({
     'Abierta': '#3498db', 
-    'EnProgreso': '#f39c12', 
+    'En Progreso': '#f39c12', 
     'Resuelta': '#2ecc71', 
     'Cerrada': '#646464'
   }[s] || '#ccc');
@@ -87,7 +87,7 @@ export default function IncidentList({ incidents, setIncidents }) {
         <select className="search-input flex-1" value={tempStatus} onChange={(e) => setTempStatus(e.target.value)}>
           <option value="">Estados</option>
           <option value="Abierta">Abierta</option>
-          <option value="EnProgreso">En proceso</option>
+          <option value="En Progreso">En Progreso</option>
           <option value="Resuelta">Resuelta</option>
           <option value="Cerrada">Cerrada</option>
         </select>

@@ -5,13 +5,13 @@ import IncidentForm from './pages/IncidentForm'
 import IncidentDetail from './pages/IncidentDetail'
 import Login from './components/Login'
 import Header from './components/Header'
-import { API_BASE_URL, authHeader } from './services/api-config'
+import { API_BASE_URL, authHeader, getValidToken, removeToken } from './services/api-config'
 import './App.css'
 
 function App() {
   const [incidents, setIncidents] = useState([])
   const [loading, setLoading] = useState(true)
-  const [token, setToken] = useState(localStorage.getItem('token'))
+  const [token, setToken] = useState(getValidToken())
 
   // 1. FUNCIÓN PARA CARGAR DATOS DEL BACKEND
   const fetchIncidents = async () => {
@@ -26,6 +26,30 @@ function App() {
         const data = await response.json()
         
 const incidenciasList = data.Data || data.data || (Array.isArray(data) ? data : []);
+
+  // Log para verificar que los comentarios se están trayendo del backend
+  console.log('Total incidencias recibidas:', incidenciasList.length);
+  
+  // Si el backend no devuelve ComentariosJson, intentamos recuperarlo de localStorage
+  incidenciasList.forEach(inc => {
+    const comentariosLocal = localStorage.getItem(`comentarios_${inc.id}`);
+    if (!inc.ComentariosJson && !inc.comentariosJson && comentariosLocal) {
+      console.log(`✓ Restaurando comentarios de localStorage para incidencia ${inc.id}`);
+      inc.ComentariosJson = comentariosLocal;
+      inc.comentariosJson = comentariosLocal;
+    }
+    
+    console.log(`Incidencia ${inc.id} (${inc.titulo}):`, {
+      ComentariosJson: inc.ComentariosJson,
+      comentariosJson: inc.comentariosJson,
+      comments: inc.comments
+    });
+    if (inc.ComentariosJson || inc.comentariosJson) {
+      console.log(`✓ Incidencia ${inc.id} - Comentarios encontrados:`, inc.ComentariosJson || inc.comentariosJson);
+    } else {
+      console.warn(`✗ Incidencia ${inc.id} - SIN COMENTARIOS`);
+    }
+  });
   
   console.log('Lista final para el estado:', incidenciasList);
   setIncidents(incidenciasList);
@@ -50,7 +74,7 @@ const incidenciasList = data.Data || data.data || (Array.isArray(data) ? data : 
 
   // Función para manejar el logout
   const handleLogout = () => {
-    localStorage.removeItem('token')
+    removeToken()
     setToken(null)
   }
 
@@ -71,7 +95,7 @@ const incidenciasList = data.Data || data.data || (Array.isArray(data) ? data : 
             <Route path="/" element={token ? <IncidentList incidents={incidents} setIncidents={setIncidents} /> : <Navigate to="/login" />} />
             <Route path="/nueva" element={token ? <IncidentForm onAdd={fetchIncidents} /> : <Navigate to="/login" />} />
             <Route path="/editar/:id" element={token ? <IncidentForm incidents={incidents} onAdd={fetchIncidents} /> : <Navigate to="/login" />} />
-            <Route path="/incidencia/:id" element={token ? <IncidentDetail incidents={incidents} /> : <Navigate to="/login" />} />
+            <Route path="/incidencia/:id" element={token ? <IncidentDetail incidents={incidents} setIncidents={setIncidents} /> : <Navigate to="/login" />} />
           </Routes>
         </main>
       </div>

@@ -117,11 +117,11 @@ namespace Kyocera.Microservice.Controllers
             existing.Prioridad = incidencia.Prioridad;
             existing.FechaLimite = incidencia.FechaLimite;
             existing.UsuarioAsignado = incidencia.UsuarioAsignado;
-  
+            existing.ComentariosJson = incidencia.ComentariosJson;
 
           await _repository.UpdateAsync(existing); 
 
-          return NoContent();
+          return Ok(existing);
         }
 
         

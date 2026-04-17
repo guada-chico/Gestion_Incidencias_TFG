@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import kyoImg from '../assets/Kyocera_logo.svg.png'
-import { login, register } from '../services/auth-service' 
+import { login, register } from '../services/auth-service'
+import { getValidToken } from '../services/api-config' 
 
 export default function Login({ setToken }) {
   const [name, setName] = useState('')
@@ -52,8 +53,8 @@ export default function Login({ setToken }) {
         // Pasamos 'email' como identificador del usuario
         await login(email, password); 
 
-        // Actualizar el estado en App.jsx
-        setToken(localStorage.getItem('token'))
+        // Actualizar el estado en App.jsx con el token validado
+        setToken(getValidToken())
 
         Swal.fire({
           icon: 'success',

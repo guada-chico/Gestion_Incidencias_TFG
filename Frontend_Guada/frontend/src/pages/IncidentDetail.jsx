@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MessageSquareText, CalendarClock, User2, ArrowLeft, ShieldAlert, Info, Tag, FileText } from 'lucide-react';
+import Swal from 'sweetalert2';
 import { updateIncidencia } from '../services/incidencias-service'; // Importamos el servicio para guardar
 import './IncidentDetail.css'; 
 
@@ -12,15 +13,20 @@ export default function IncidentDetail({ incidents, setIncidents }) {
   const incident = incidents.find(inc => inc.id === parseInt(id));
 
   // 2. LÓGICA DE PARSEO: Convertimos el String del Back en un Array para el Front
-  // Si ya existe 'comments' como array lo usamos, si no, intentamos parsear 'comentariosJson'
-  const listaComentarios = incident?.comments || (incident?.comentariosJson ? JSON.parse(incident.comentariosJson) : []);
+  // Intenta con PascalCase primero (como devuelve el GET), luego camelCase, luego localStorage
+  const comentariosJson = incident?.ComentariosJson || incident?.comentariosJson || '';
+  const comentariosBackend = comentariosJson ? JSON.parse(comentariosJson) : [];
+  
+  // Fallback: Si el backend no devuelve comentarios, intentamos recuperarlos de localStorage
+  const comentariosLocal = localStorage.getItem(`comentarios_${id}`) ? JSON.parse(localStorage.getItem(`comentarios_${id}`)) : [];
+  const listaComentarios = comentariosBackend.length > 0 ? comentariosBackend : comentariosLocal;
 
-  const estadoMap = { 0: 'Abierta', 1: 'EnProgreso', 2: 'Resuelta', 3: 'Cerrada' };
+  const estadoMap = { 0: 'Abierta', 1: 'En Progreso', 2: 'Resuelta', 3: 'Cerrada' };
   const prioridadMap = { 0: 'Baja', 1: 'Media', 2: 'Alta', 3: 'Crítica' };
 
   const getStatusLabel = (estado) => estadoMap[estado] || String(estado);
   const getPriorityLabel = (prioridad) => prioridadMap[prioridad] || String(prioridad);
-  const getStatusColor = (s) => ({'Abierta': '#3498db', 'EnProgreso': '#f39c12', 'Resuelta': '#2ecc71', 'Cerrada': '#646464'}[s] || '#ccc');
+  const getStatusColor = (s) => ({'Abierta': '#3498db', 'En Progreso': '#f39c12', 'Resuelta': '#2ecc71', 'Cerrada': '#646464'}[s] || '#ccc');
   const getPriorityColor = (p) => ({'Baja': '#2ecc71', 'Media': '#f1c40f', 'Alta': '#e67e22', 'Crítica': '#e74c3c'}[p] || '#ccc');
 
   const formatLimitDate = (dateStr) => {
@@ -49,20 +55,46 @@ export default function IncidentDetail({ incidents, setIncidents }) {
       FechaCreacion: incident.fechaCreacion,
       FechaLimite: incident.fechaLimite,
       UsuarioAsignado: incident.usuarioAsignado,
-      ComentariosJson: JSON.stringify(nuevaListaComentarios) // PascalCase para el backend
+      ComentariosJson: JSON.stringify(nuevaListaComentarios)
     };
 
+    console.log('Enviando datos actualizados:', incidentActualizado);
+
     try {
-      await updateIncidencia(incident.id, incidentActualizado);
+      const resultado = await updateIncidencia(incident.id, incidentActualizado);
+      console.log('Respuesta del backend:', resultado);
+      
+      // GUARDAR EN localStorage COMO BACKUP (por si el backend no devuelve ComentariosJson)
+      localStorage.setItem(`comentarios_${id}`, JSON.stringify(nuevaListaComentarios));
       
       // Actualizamos el estado global para que se vea al instante
+      // Guardamos tanto ComentariosJson (PascalCase) como comentariosJson (camelCase) para consistencia
       const updated = incidents.map(inc => 
-        inc.id === incident.id ? { ...inc, comments: nuevaListaComentarios, comentariosJson: JSON.stringify(nuevaListaComentarios) } : inc
+        inc.id === incident.id ? { 
+          ...inc, 
+          comments: nuevaListaComentarios, 
+          ComentariosJson: JSON.stringify(nuevaListaComentarios),
+          comentariosJson: JSON.stringify(nuevaListaComentarios)
+        } : inc
       );
       setIncidents(updated);
       setNewComment('');
+      
+      // Mostrar mensaje de éxito
+      Swal.fire({
+        icon: 'success',
+        title: 'Comentario guardado',
+        showConfirmButton: false,
+        timer: 1500
+      });
     } catch (error) {
-      console.error("Error al guardar:", error);
+      console.error("Error al guardar comentario:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message || 'No se pudo guardar el comentario',
+        confirmButtonColor: 'var(--kyocera-red)'
+      });
     }
   };
 

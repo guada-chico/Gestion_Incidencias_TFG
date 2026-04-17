@@ -32,14 +32,24 @@ export const createIncidencia = async (incidencia) => {
 };
 
 export const updateIncidencia = async (id, incidencia) => {
-    await fetch(`${API_BASE_URL}/Incidencias/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/Incidencias/${id}`, {
         method: 'PUT',
         headers: { 
             'Content-Type': 'application/json',
             ...authHeader() 
         },
-        body: JSON.stringify({ ...incidencia, id }) // Asegura que el ID coincida
+        body: JSON.stringify(incidencia)
     });
+    
+    // Manejar respuestas 204 No Content o 200 OK
+    if (response.status === 204 || response.status === 200) {
+        return response.status === 200 ? await response.json() : null;
+    }
+    
+    // Si no es exitoso, intenta obtener el mensaje de error del backend
+    const errorData = await response.json().catch(() => ({ message: 'Error desconocido' }));
+    const errorMessage = errorData.message || errorData.error || `Error ${response.status}`;
+    throw new Error(errorMessage);
 };
 
 export const deleteIncidencia = async (id) => {
