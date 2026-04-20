@@ -1,3 +1,6 @@
+/* =========================
+   VARIABLES Y RESET
+========================= */
 :root {
   --kyocera-red: #e5002d;
   --bg: #f8f9fa;
@@ -6,153 +9,50 @@
   --text-light: #666;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); color: var(--text-main); }
-
-.incident-page { padding: 40px 20px; max-width: 1600px; margin: 0 auto; }
-.page-title { text-align: center; color: var(--kyocera-red); margin-bottom: 40px; font-size: 2rem; }
-
-/* =========================
-   FORMULARIO Y FILTROS
-========================= */
-.search-form {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 40px;
-  justify-content: center;
-  flex-wrap: wrap;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.search-input {
-  padding: 0 16px;
-  height: 48px;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  font-size: 16px;
-  background-color: #fafafa;
-  transition: all 0.2s ease;
-  flex: 1;
-  min-width: 200px;
-  max-width: 300px;
-  outline: none;
-}
-
-.search-input:focus {
-  border-color: var(--kyocera-red);
-  background-color: #fff;
-  box-shadow: 0 0 0 4px rgba(229, 0, 45, 0.1);
-}
-
-/* LA FLECHA SVG EN SELECTS NATIVOS */
-.search-form select.search-input {
-  appearance: none;
-  cursor: pointer;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 15px center;
-  background-size: 14px;
-  padding-right: 40px;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg);
+  color: var(--text-main);
 }
 
 /* =========================
-   DROPDOWN DE USUARIO (CUSTOM)
+   LAYOUT GENERAL APP
 ========================= */
-.user-dropdown-container {
-  position: relative;
-  flex: 1;
-  min-width: 220px;
-  max-width: 300px;
-  font-family: 'Segoe UI', Tahoma, sans-serif;
-}
-
-.user-dropdown-trigger {
+.app-layout {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 48px;
-  padding: 0 16px;
-  background-color: #fafafa;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.user-dropdown-trigger:hover, .user-dropdown-trigger.active {
-  border-color: var(--kyocera-red);
-  background-color: #fff;
-}
-
-.selected-text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 16px;
-}
-
-.arrow-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* LA MISMA FLECHA SVG EN USUARIO */
-.svg-arrow {
-  width: 14px;
-  height: 14px;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  transition: transform 0.2s ease;
-}
-
-.user-dropdown-trigger.active .svg-arrow {
-  transform: rotate(180deg);
-}
-
-.clear-user-x {
-  color: #999;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.clear-user-x:hover { color: var(--kyocera-red); }
-
-/* CONTENIDO DEL DROPDOWN */
-.user-dropdown {
-  position: absolute;
-  top: 55px;
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  z-index: 1000;
-  padding: 8px;
-}
-
-.user-search-input-inner {
+  flex-direction: column;
+  min-height: 100vh;
   width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  margin-bottom: 8px;
-  outline: none;
 }
 
-.user-list { max-height: 200px; overflow-y: auto; }
-.user-dropdown-item {
-  padding: 10px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
+.main-content {
+  flex: 1;
+  padding: 20px;
+  width: 100%;
 }
-.user-dropdown-item:hover { background: #f5f5f5; color: var(--kyocera-red); }
+
+.page-wrapper {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.page-title {
+  text-align: center;
+  color: var(--kyocera-red);
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
 
 /* =========================
-   GRID Y TARJETAS
+   GRID DE INCIDENCIAS (ANTI-SUPERPOSICIÓN)
 ========================= */
 .incident-grid {
   display: grid;
@@ -164,59 +64,570 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg);
   max-width: 1700px;
   margin: 0 auto;
   /* Importante: permite que las filas crezcan según el contenido */
-  grid-auto-rows: auto; 
+  grid-auto-rows: auto;
 }
 
 .incident-card {
   background: white;
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: 12px;
-  padding: 25px;
+  padding: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
   display: flex;
   flex-direction: column;
   height: 100%;
+  box-sizing: border-box;
+  /* Evita que el contenido interno ensanche la tarjeta más de la cuenta */
+  min-width: 0;
+  overflow: hidden;
 }
 
-.card-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
-.status-badge, .priority-badge { font-weight: bold; font-size: 14px; }
-
-.card-title {
-  font-size: 1.2rem;
-  margin: 10px 0 20px 0;
-  flex-grow: 1;
+.incident-card:hover {
+  transform: translateY(-5px);
+  border-color: #d1d1d1;
 }
 
-.card-footer-content { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
-.info-row { display: flex; align-items: center; gap: 10px; padding: 8px 15px; border-radius: 20px; font-size: 14px; }
-.assigned-row { background: #eaf3fa; color: #3498db; }
-.date-row { background: #fdf2f4; color: #d63384; }
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
 
+/* Título de la incidencia (Muestra todo el texto) */
+.incident-card h3 {
+  margin: 15px 0 20px 0;
+  font-size: 20px;
+  text-align: center;
+  color: var(--text-main);
+  line-height: 1.3;
+  /* FORZAR SALTO DE LÍNEA: Crucial para evitar que la tarjeta se ensanche */
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+  margin-top: 3px;
+}
+
+/* Estado y Prioridad grandes */
+.status-badge, .priority-badge {
+  font-weight: bold;
+  font-size: 16px !important;
+  letter-spacing: 0.5px;
+}
+
+/* PIE DE TARJETA: Bloque que se alinea al fondo */
+.card-footer-content {
+  margin-top: auto; /* Empuja el bloque al fondo de la card */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* FILAS DE INFORMACIÓN */
+.info-row {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 15px;
+  border-radius: 50px;
+}
+
+.assigned-row { color: #506ee4; background: #eaf3fa; }
+.date-row { color: #d63384; background: #fdf2f4; }
+
+/* BOTONES AL FONDO */
 .card-actions {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  justify-content: center;
   padding-top: 15px;
+  margin-top: 10px;
   border-top: 1px solid #eee;
 }
 
 .btn {
-  flex: 1;
-  padding: 10px;
-  border-radius: 6px;
-  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 8px;
   font-size: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: opacity 0.2s;
+}
+
+.btn:hover { opacity: 0.85; }
+
+.btn-danger { background: #ffeded; color: #e74c3c; border: 1px solid #ffcfcf; }
+
+.btn-edit { background: #eaf3fa; color: #004a7c; border: 1px solid #cce7fa; }
+
+.btn-detail { background: #f6ebff; color: #5a189a; border: 1px solid #f2dbfc; }
+
+/* =========================
+   BUSCADOR Y FORMULARIOS
+========================= */
+.search-form {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 40px;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  padding: 14px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  background-color: #fafafa;
+  transition: all 0.2s ease;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  border-color: var(--kyocera-red);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(229, 0, 45, 0.1);
+}
+
+.search-input:hover {
+  border-color: var(--kyocera-red);
+  background-color: #fff;
+}
+
+/* Estilos específicos para selects */
+.search-form select.search-input {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.search-form select.search-input:focus {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+/* Todos los elementos del formulario tienen el mismo ancho */
+.search-form > * {
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+}
+
+/* El input de búsqueda principal puede ser más ancho */
+.search-form input[type="text"]:first-child {
+  flex: 2;
+  min-width: 250px;
+  max-width: 400px;
+}
+
+/* Responsive para filtros */
+@media (max-width: 1024px) {
+  .search-form {
+    gap: 12px;
+  }
+
+  .search-form > * {
+    min-width: 180px;
+    max-width: 220px;
+  }
+
+  .search-form input[type="text"]:first-child {
+    min-width: 200px;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .search-form > * {
+    min-width: unset;
+    max-width: unset;
+    width: 100%;
+  }
+
+  .search-form input[type="text"]:first-child {
+    width: 100%;
+  }
+}
+
+.btn-search {
+  background: var(--kyocera-red);
+  color: white;
+  height: 48px;
+  padding: 0 30px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* =========================
+   PÁGINA DE LOGIN
+========================= */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg); /* Usa el gris clarito que definimos */
+  padding: 20px;
+}
+
+/* HEADER DEL LOGIN */
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-header img {
+  width: 180px; /* Logo de Kyocera un poco más grande aquí */
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.login-header h1 {
+  font-size: 2rem;
+  color: var(--text-main);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* CONTENEDOR DEL FORMULARIO */
+.login-container {
+  background: white;
+  padding: 45px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 420px; /* Ancho ideal para formularios de login */
+  border: 1px solid var(--border);
+}
+
+/* EL FORMULARIO */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #fafafa;
+}
+
+.login-form input:focus {
+  border-color: var(--kyocera-red);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(229, 0, 45, 0.1);
+}
+
+/* BOTÓN DE ENTRAR/REGISTRO */
+.login-form button {
+  margin-top: 10px;
+  padding: 14px;
+  background-color: var(--kyocera-red);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.login-form button:hover {
+  background-color: #c40026; /* Un rojo un poco más oscuro */
+}
+
+.login-form button:active {
+  transform: scale(0.98);
+}
+
+/* SWITCH PARA CAMBIAR ENTRE LOGIN Y REGISTRO */
+.login-switch {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+.login-switch button {
+  background: none;
+  border: none;
+  color: var(--kyocera-red);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0 5px;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.login-switch button:hover {
+  color: #c40026;
+}
+
+/* =========================
+   USER DROPDOWN STYLES
+========================= */
+.user-dropdown-container {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+}
+
+.user-dropdown-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+.user-dropdown-trigger:hover {
+  border-color: var(--kyocera-red);
+  background-color: #fff;
+}
+
+.user-dropdown-trigger:focus {
+  border-color: var(--kyocera-red);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(229, 0, 45, 0.1);
+}
+
+.dropdown-arrow {
+  color: var(--text-light);
+  font-size: 0.8rem;
+  margin-left: 8px;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 2px;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.user-search-container {
+  padding: 1px 16px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-search-input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  outline: none;
+  background-color: #fafafa;
+}
+
+.user-search-input:focus {
+  border-color: var(--kyocera-red);
+  background-color: #fff;
+}
+
+.clear-user-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  width: 20px;
+  height: 20px;
+  transition: all 0.2s ease;
 }
 
-.btn-detail { background: #f3e8ff; color: #7b2cbf; }
-.btn-edit { background: #e0f2fe; color: #0369a1; }
-.btn-danger { background: #fee2e2; color: #dc2626; border: none; cursor: pointer; }
+.clear-user-btn:hover {
+  background-color: var(--bg-light);
+  color: var(--kyocera-red);
+}
 
+.user-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.user-dropdown-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-light);
+  transition: background-color 0.2s ease;
+}
+
+.user-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.user-dropdown-item:hover {
+  background-color: var(--bg-light);
+}
+
+.user-name {
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+.no-users {
+  padding: 16px;
+  text-align: center;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* RESPONSIVE LOGIN */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 30px 20px;
+  }
+
+  .login-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .login-header img {
+    width: 140px;
+  }
+}
+
+/* =========================
+   RESPONSIVE DESIGN APP
+========================= */
+/* Tablets (Menos de 1024px) */
+@media (max-width: 1024px) {
+  .incident-grid {
+    /* Bajamos el mínimo a 300px para que quepan mejor las columnas en tablets */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .page-wrapper {
+    width: 95%;
+  }
+}
+
+/* Móviles (Menos de 768px) */
 @media (max-width: 768px) {
-  .search-form { flex-direction: column; }
-  .search-input, .user-dropdown-container { max-width: 100%; width: 100%; }
-  .incident-grid { grid-template-columns: 1fr; }
+  .page-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  /* El buscador pasa de fila a columna */
+  .search-form {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
+  .search-input, .flex-1, .flex-2, .btn-search {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .incident-grid {
+    /* 2 columnas en tablets */
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 20px;
+  }
+
+  .incident-card {
+    padding: 20px;
+  }
+
+  .incident-card h3 {
+    font-size: 18px;
+  }
+
+  /* Los botones de la tarjeta se apilan si son muy grandes */
+  .card-actions {
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    flex: 1; /* Los botones crecen para ocupar el ancho disponible */
+    min-width: 80px;
+  }
+}
+
+/* Móviles muy pequeños (Menos de 480px) */
+@media (max-width: 480px) {
+  .main-content {
+    padding: 10px;
+  }
+
+  .incident-grid {
+    /* 1 columna en móviles muy pequeños */
+    grid-template-columns: 1fr;
+    padding: 0 10px;
+  }
+
+  .status-badge, .priority-badge {
+    font-size: 14px !important; /* Reducimos el tamaño gigante solo en móviles mini */
+  }
+
+  .info-row {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .login-container {
+    padding: 20px;
+    width: 90%;
+  }
 }
