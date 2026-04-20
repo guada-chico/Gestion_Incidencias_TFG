@@ -126,7 +126,7 @@ export default function IncidentDetail({ incidents, setIncidents }) {
 
         <div className="description-section" style={{ marginTop: '30px', marginBottom: '25px' }}>
           <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '18px', color: '#333', marginBottom: '15px', borderBottom: '2px solid #eee', paddingBottom: '8px' }}>
-            <FileText size={20} color='#d477fb' /><strong> Descripción Incidencia</strong>
+            <FileText size={16} color='#d477fb' /><strong> Descripción Incidencia</strong>
           </h3>
           <p className="description-text" style={{ background: '#f9f9f9', padding: '18px', borderRadius: '10px', border: '1px solid #eee', lineHeight: '1.6', color: '#444' }}>
             {incident.descripcion}
@@ -134,19 +134,19 @@ export default function IncidentDetail({ incidents, setIncidents }) {
         </div>
         
         <div className="assigned-user" style={{ marginBottom: '20px' }}>
-          <User2 size={20} color='#6582f7' /> <strong>Usuario asignado:</strong> {incident.usuarioAsignado || 'Pendiente'}
+          <User2 size={16} color='#6582f7' /> <strong>Usuario asignado:</strong> {incident.usuarioAsignado || 'Pendiente'}
         </div>
 
         <div className="dates-grid">
           <div className="date-item">
-            <CalendarClock size={20} /> <strong>Creada:</strong> {new Date(incident.fechaCreacion).toLocaleDateString('es-ES')}
+            <CalendarClock size={16} /> <strong>Creada:</strong> {new Date(incident.fechaCreacion).toLocaleDateString('es-ES')}
           </div>
         </div>
 
         <hr className="detail-hr" />
         
         <h4 className="comments-title">
-          <MessageSquareText size={18} color="var(--kyocera-red)" /> Seguimiento
+          <MessageSquareText size={16} color="var(--kyocera-red)" /> Seguimiento
         </h4>
 
         <div className="comments-history">

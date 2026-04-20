@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Eye, Edit3, Trash2, User, Calendar } from 'lucide-react';
+import { Eye, Edit3, Trash2, User, Calendar } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { deleteIncidencia, getUsuarios } from '../services/incidencias-service';
 
@@ -21,11 +21,6 @@ export default function IncidentList({ incidents, setIncidents }) {
 
   console.log('IncidentList recibió incidencias:', incidents);
   console.log('Incidencias count:', incidents?.length);
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setActiveFilters({ search: tempSearch, status: tempStatus, priority: tempPriority, user: tempUser });
-  };
 
   const handleDelete = async (id) => {
     const result = await Swal.fire({
@@ -68,6 +63,11 @@ export default function IncidentList({ incidents, setIncidents }) {
     loadUsers();
   }, []);
 
+  // Filtro automático: se ejecuta cada vez que cambian los filtros temporales
+  useEffect(() => {
+    setActiveFilters({ search: tempSearch, status: tempStatus, priority: tempPriority, user: tempUser });
+  }, [tempSearch, tempStatus, tempPriority, tempUser]);
+
   const filteredIncidents = incidents.filter(inc => {
     // Convertir enums a strings para comparar (usar camelCase como devuelve el backend)
     const incidenciaEstado = getStatusLabel(inc.estado);
@@ -106,7 +106,7 @@ export default function IncidentList({ incidents, setIncidents }) {
     <div className="incident-page">
       <h2 className="page-title">Listado de Incidencias</h2>
 
-      <form onSubmit={handleSearch} className="search-form">
+      <form className="search-form">
         <input 
           className="search-input flex-2" 
           type="text" 
@@ -137,9 +137,6 @@ export default function IncidentList({ incidents, setIncidents }) {
               <option key={user} value={user}>{user}</option>
             ))}
         </select>
-        <button type="submit" className="btn-search">
-          <Search size={18}/> BUSCAR
-        </button>
       </form>
 
       <div className="incident-grid">
