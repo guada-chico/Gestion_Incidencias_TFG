@@ -48,7 +48,7 @@
   transition: color 0.2s;
 }
 
-.nav-links a:hover {
+.nav-links a:hover, .logout-icon-btn:hover {
   color: var(--kyocera-red);
 }
 
@@ -57,10 +57,6 @@
   margin-left: 10px;
   border-left: 1px solid #ddd;
   padding-left: 20px;
-}
-
-.nav-links a:hover, .logout-btn:hover {
-  color: var(--kyocera-red);
 }
 
 /* =========================
