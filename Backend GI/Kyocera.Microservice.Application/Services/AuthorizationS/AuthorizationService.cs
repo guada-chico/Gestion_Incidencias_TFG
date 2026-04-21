@@ -2,7 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Kyocera.Microservice.Models.Models;
+using Kyocera.Microservice.Models.Models.Entities;
 using Kyocera.Microservice.DbContext.Repository.Usuarios;
 
 namespace Kyocera.Microservice.Application.Services.Authorization
