@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Eye, Edit3, Trash2, User, Calendar } from 'lucide-react';
 import Swal from 'sweetalert2';
-import { deleteIncidencia, getUsuarios } from '../services/incidencias-service';
+import { deleteIncidencia, getUsuarios } from '../Services/incidencias-service';
 
-export default function IncidentList({ incidents, setIncidents }) {
+export default function IncidentList({ incidents = [], setIncidents }) {
   const [tempSearch, setTempSearch] = useState('');
   const [tempStatus, setTempStatus] = useState('');
   const [tempPriority, setTempPriority] = useState('');
@@ -20,29 +20,42 @@ export default function IncidentList({ incidents, setIncidents }) {
   const getStatusLabel = (estado) => estadoMap[estado] || String(estado);
   const getPriorityLabel = (prioridad) => prioridadMap[prioridad] || String(prioridad);
 
-  // --- LÓGICA DE CARGA DE USUARIOS RECUPERADA ---
   useEffect(() => {
     const loadUsers = async () => {
       try {
         const data = await getUsuarios();
-        let allUsers = data || [];
+        
+        // 1. Usuarios reales de la base de datos (evitamos nombres nulos aquí)
+        let apiUsers = (data || [])
+          .map(u => u.nombreReal || u.nombre)
+          .filter(Boolean);
 
-        // Recuperar usuarios que están en las incidencias pero no en la API
-        const assignedUsers = incidents
+        // 2. Nombres que aparecen en las incidencias actuales
+        const incidentUsers = (incidents || [])
           .map(inc => inc.usuarioAsignado?.trim())
-          .filter(Boolean)
-          .filter(assignedUser => !allUsers.some(user => user.nombre === assignedUser))
-          .map(name => ({ id: `extra-${name}`, nombre: name }));
+          .filter(Boolean);
 
-        setUsers([...allUsers, ...assignedUsers]);
+        // 3. Combinamos ambos en un Set para quitar duplicados
+        const combinedNames = new Set([...apiUsers, ...incidentUsers]);
+        
+        // 4. Creamos la lista final de objetos
+        const finalUserList = Array.from(combinedNames).map((name, index) => ({
+          id: `user-${index}`,
+          nombre: name
+        }));
+
+        // 5. SI hay alguna incidencia sin usuario, añadimos la opción "Sin asignar" al principio
+        const tieneIncidenciasSinAsignar = (incidents || []).some(inc => !inc.usuarioAsignado?.trim());
+        if (tieneIncidenciasSinAsignar) {
+          finalUserList.unshift({ id: 'unassigned', nombre: 'Sin asignar' });
+        }
+
+        setUsers(finalUserList);
+
       } catch (error) {
         console.error('Error cargando usuarios:', error);
-        // Fallback: solo los usuarios de las incidencias
-        const fallbackUsers = incidents
-          .map(inc => inc.usuarioAsignado?.trim())
-          .filter(Boolean)
-          .map(name => ({ id: `fb-${name}`, nombre: name }));
-        setUsers(fallbackUsers);
+        const fallback = [...new Set((incidents || []).map(inc => inc.usuarioAsignado?.trim()).filter(Boolean))];
+        setUsers(fallback.map((n, i) => ({ id: i, nombre: n })));
       }
     };
     loadUsers();
@@ -77,12 +90,11 @@ export default function IncidentList({ incidents, setIncidents }) {
   const handleClearUser = (e) => {
     e.stopPropagation();
     setTempUser('');
-    setSelectedUserDisplay('Seleccionar usuario');
+    setSelectedUserDisplay('Usuario asignado');
     setUserSearch('');
     setShowUserDropdown(false);
   };
 
-  // Cerrar al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (showUserDropdown && !e.target.closest('.user-dropdown-container')) {
@@ -93,11 +105,24 @@ export default function IncidentList({ incidents, setIncidents }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showUserDropdown]);
 
-  const filteredIncidents = incidents.filter(inc => {
+  // --- LÓGICA DE FILTRADO CORREGIDA PARA "Sin asignar" ---
+  const filteredIncidents = (incidents || []).filter(inc => {
     const matchesSearch = !tempSearch || inc.titulo?.toLowerCase().includes(tempSearch.toLowerCase());
     const matchesStatus = !tempStatus || getStatusLabel(inc.estado) === tempStatus;
     const matchesPriority = !tempPriority || getPriorityLabel(inc.prioridad) === tempPriority;
-    const matchesUser = !tempUser || inc.usuarioAsignado?.trim() === tempUser;
+    
+    // Lógica especial para el filtro de usuario
+    let matchesUser = true;
+    if (tempUser) {
+      if (tempUser === 'Sin asignar') {
+        // Si el filtro es "Sin asignar", buscamos incidencias cuyo campo esté vacío
+        matchesUser = !inc.usuarioAsignado || inc.usuarioAsignado.trim() === '';
+      } else {
+        // Busqueda normal por nombre
+        matchesUser = inc.usuarioAsignado?.trim() === tempUser;
+      }
+    }
+
     return matchesSearch && matchesStatus && matchesPriority && matchesUser;
   });
 
@@ -155,10 +180,12 @@ export default function IncidentList({ incidents, setIncidents }) {
                 autoFocus
               />
               <div className="user-list">
-                {users.filter(u => u.nombre.toLowerCase().includes(userSearch.toLowerCase())).map((user) => (
-                  <div key={user.id} className="user-dropdown-item" onClick={() => handleUserSelect(user)}>
-                    {user.nombre}
-                  </div>
+                {users
+                  .filter(u => u.nombre.toLowerCase().includes(userSearch.toLowerCase()))
+                  .map((user) => (
+                    <div key={user.id} className="user-dropdown-item" onClick={() => handleUserSelect(user)}>
+                      {user.nombre}
+                    </div>
                 ))}
               </div>
             </div>
@@ -183,7 +210,7 @@ export default function IncidentList({ incidents, setIncidents }) {
                 <User size={20}/> <span>Asignado a: {incident.usuarioAsignado || 'Sin asignar'}</span>
               </p>
               <p className="info-row date-row">
-                <Calendar size={20}/> <span>Fecha: {new Date(incident.fechaCreacion).toLocaleDateString()}</span>
+                <Calendar size={20}/> <span>Fecha: {incident.fechaCreacion ? new Date(incident.fechaCreacion).toLocaleDateString() : 'N/A'}</span>
               </p>
               <div className="card-actions">
                 <Link className="btn btn-detail" to={`/incidencia/${incident.id}`}><Eye size={18}/> Detalle</Link>

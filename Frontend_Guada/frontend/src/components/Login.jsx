@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import kyoImg from '../assets/Kyocera_logo.svg.png'
-import { login, register } from '../services/auth-service'
-import { getValidToken } from '../services/api-config' 
+import { login, register } from '../Services/auth-service' // Asegurada la S mayúscula de Services
+import { getValidToken } from '../Services/api-config' 
 
 export default function Login({ setToken }) {
   const [name, setName] = useState('')
@@ -14,7 +14,18 @@ export default function Login({ setToken }) {
 
   const navigate = useNavigate()
 
-  const handleSubmit = async (e) => { // Añadimos async para poder usar await
+  // --- LÓGICA PARA QUITAR EL SCROLL ---
+  useEffect(() => {
+    // Al entrar al Login, bloqueamos el scroll del body
+    document.body.style.overflow = 'hidden'
+    
+    // Al salir del Login, restauramos el scroll
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [])
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (isRegister) {
@@ -29,8 +40,8 @@ export default function Login({ setToken }) {
       }
 
       try {
-        // Llamada real al registro del backend
-        await register(email, password); 
+        // Registro en el backend
+        await register(email, password)
         
         Swal.fire({
           icon: 'success',
@@ -49,12 +60,12 @@ export default function Login({ setToken }) {
 
     } else {
       try {
-        // --- CONEXIÓN CON EL BACKEND ---
-        // Pasamos 'email' como identificador del usuario
-        await login(email, password); 
+        // Intento de login
+        await login(email, password)
 
-        // Actualizar el estado en App.jsx con el token validado
-        setToken(getValidToken())
+        // Obtener y guardar el token válido
+        const token = getValidToken()
+        setToken(token)
 
         Swal.fire({
           icon: 'success',
@@ -64,7 +75,6 @@ export default function Login({ setToken }) {
         }).then(() => navigate('/'))
 
       } catch (err) {
-        // Si el backend devuelve 401 o error de red, caerá aquí
         Swal.fire({
           icon: 'error',
           title: 'Error de acceso',
@@ -74,7 +84,7 @@ export default function Login({ setToken }) {
       }
     }
 
-    // Limpiamos los campos
+    // Limpiamos los campos después de la acción
     setName('')
     setEmail('')
     setPassword('')

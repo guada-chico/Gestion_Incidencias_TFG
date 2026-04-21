@@ -298,13 +298,13 @@ body {
 /* HEADER DEL LOGIN */
 .login-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .login-header img {
   width: 180px; /* Logo de Kyocera un poco más grande aquí */
   height: auto;
-  margin-bottom: 15px;
+  margin-bottom: 3px;
 }
 
 .login-header h1 {
