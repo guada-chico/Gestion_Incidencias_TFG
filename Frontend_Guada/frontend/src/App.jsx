@@ -13,12 +13,11 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [token, setToken] = useState(getValidToken())
 
-  // 1. FUNCIÓN PARA CARGAR DATOS DEL BACKEND
   const fetchIncidents = async () => {
     try {
       console.log('Obteniendo incidencias desde:', `${API_BASE_URL}/incidencias`);
       const response = await fetch(`${API_BASE_URL}/incidencias`, {
-        headers: authHeader() // Enviamos el token para que el Back nos deje pasar
+        headers: authHeader()
       })
       console.log('Response status:', response.status);
       
@@ -27,10 +26,8 @@ function App() {
         
 const incidenciasList = data.Data || data.data || (Array.isArray(data) ? data : []);
 
-  // Log para verificar que los comentarios se están trayendo del backend
   console.log('Total incidencias recibidas:', incidenciasList.length);
   
-  // Si el backend no devuelve ComentariosJson, intentamos recuperarlo de localStorage
   incidenciasList.forEach(inc => {
     const comentariosLocal = localStorage.getItem(`comentarios_${inc.id}`);
     if (!inc.ComentariosJson && !inc.comentariosJson && comentariosLocal) {
@@ -63,7 +60,6 @@ const incidenciasList = data.Data || data.data || (Array.isArray(data) ? data : 
     }
   }
 
-  // 2. CARGAR AL INICIO (Y cada vez que el token cambie)
   useEffect(() => {
     if (token) {
       fetchIncidents()
@@ -72,7 +68,6 @@ const incidenciasList = data.Data || data.data || (Array.isArray(data) ? data : 
     }
   }, [token])
 
-  // Función para manejar el logout
   const handleLogout = () => {
     removeToken()
     setToken(null)
@@ -83,15 +78,12 @@ const incidenciasList = data.Data || data.data || (Array.isArray(data) ? data : 
   return (
     <Router>
       <div className="app-container">
-        {/* Solo mostramos la Header si el usuario está logueado */}
         {token && <Header onLogout={handleLogout} />}
         
         <main className="main-content">
           <Routes>
-            {/* Si no hay token, mandamos siempre al Login */}
             <Route path="/login" element={!token ? <Login setToken={setToken} /> : <Navigate to="/" />} />
             
-            {/* Rutas Protegidas */}
             <Route path="/" element={token ? <IncidentList incidents={incidents} setIncidents={setIncidents} /> : <Navigate to="/login" />} />
             <Route path="/nueva" element={token ? <IncidentForm onAdd={fetchIncidents} /> : <Navigate to="/login" />} />
             <Route path="/editar/:id" element={token ? <IncidentForm incidents={incidents} onAdd={fetchIncidents} /> : <Navigate to="/login" />} />

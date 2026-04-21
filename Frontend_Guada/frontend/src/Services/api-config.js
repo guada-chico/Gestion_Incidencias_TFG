@@ -1,7 +1,5 @@
-// api-config.js
 export const API_BASE_URL = 'https://localhost:7220/api'; 
 
-// Constante: 24 horas en milisegundos
 const TOKEN_EXPIRY_TIME = 24 * 60 * 60 * 1000;
 
 export const saveToken = (token) => {
@@ -14,7 +12,7 @@ export const saveToken = (token) => {
 
 export const removeToken = () => {
     localStorage.removeItem('tokenData');
-    localStorage.removeItem('token'); // Backward compatibility
+    localStorage.removeItem('token');
 };
 
 export const getValidToken = () => {
@@ -27,7 +25,6 @@ export const getValidToken = () => {
         const now = new Date().getTime();
         const elapsed = now - tokenData.timestamp;
         
-        // Si han pasado más de 24 horas, eliminar el token
         if (elapsed > TOKEN_EXPIRY_TIME) {
             removeToken();
             return null;

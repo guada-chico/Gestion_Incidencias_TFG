@@ -1,9 +1,8 @@
-/* HEADER GLOBAL */
 .header-global {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 12rem !important; 
+  padding: 2rem 12rem; 
   background-color: #ffffff;
   border-bottom: 1px solid #ddd;
   width: 100%;
@@ -51,7 +50,7 @@
 }
 
 .logout-btn {
-  color: #777 !important;
+  color: #777;
   margin-left: 10px;
   border-left: 1px solid #ddd;
   padding-left: 20px;
@@ -61,7 +60,7 @@
 
 @media (max-width: 1024px) {
   .header-global {
-    padding: 1.5rem 4rem !important;
+    padding: 1.5rem 4rem;
   }
   
   .header-left {
@@ -76,7 +75,7 @@
 @media (max-width: 768px) {
   .header-global {
     flex-direction: column;
-    padding: 1rem 2rem !important;
+    padding: 1rem 2rem;
     gap: 15px;
     height: auto;
   }
@@ -111,7 +110,7 @@
 
 @media (max-width: 480px) {
   .header-global {
-    padding: 1rem !important;
+    padding: 1rem;
   }
 
   .header-title {

@@ -15,12 +15,9 @@ export default function Login({ setToken }) {
 
   const navigate = useNavigate()
 
-  // --- LÓGICA PARA QUITAR EL SCROLL ---
   useEffect(() => {
-    // Al entrar al Login, bloqueamos el scroll del body
     document.body.style.overflow = 'hidden'
     
-    // Al salir del Login, restauramos el scroll
     return () => {
       document.body.style.overflow = 'auto'
     }
@@ -41,7 +38,7 @@ export default function Login({ setToken }) {
       }
 
       try {
-        // Registro en el backend
+
         await register(email, password)
         
         Swal.fire({
@@ -61,10 +58,8 @@ export default function Login({ setToken }) {
 
     } else {
       try {
-        // Intento de login
         await login(email, password)
 
-        // Obtener y guardar el token válido
         const token = getValidToken()
         setToken(token)
 
@@ -85,7 +80,6 @@ export default function Login({ setToken }) {
       }
     }
 
-    // Limpiamos los campos después de la acción
     setName('')
     setEmail('')
     setPassword('')

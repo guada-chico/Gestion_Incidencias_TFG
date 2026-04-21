@@ -1,4 +1,3 @@
-// auth-service.js
 import { API_BASE_URL, saveToken, removeToken } from "./api-config";
 
 export const login = async (email, password) => {
@@ -11,7 +10,7 @@ export const login = async (email, password) => {
     if (!response.ok) throw new Error('Credenciales incorrectas');
 
     const data = await response.json();
-    saveToken(data.token); // Guarda el JWT generado por el backend
+    saveToken(data.token); 
     return data;
 };
 

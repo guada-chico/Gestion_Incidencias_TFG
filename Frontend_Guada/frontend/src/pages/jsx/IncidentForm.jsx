@@ -26,7 +26,6 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
 
   useEffect(() => {
     if (id) {
-      // Buscar por 'id' en minúscula (como devuelve el backend)
       const existing = incidents.find(inc => inc.id === parseInt(id));
       if (existing) {
         setFormData({
@@ -45,7 +44,6 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación básica
     if (!formData.Titulo?.trim()) {
       Swal.fire({ 
         icon: 'error', 
@@ -66,7 +64,6 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
       return;
     }
 
-    // Preparamos el objeto EXACTO que espera el Backend
     const incidentToSend = {
       Titulo: formData.Titulo.trim(),
       Descripcion: formData.Descripcion.trim(),
@@ -86,7 +83,7 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
         method: id ? 'PUT' : 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          ...authHeader() // Enviamos el Token JWT
+          ...authHeader()
         },
         body: JSON.stringify(incidentToSend)
       });
@@ -96,14 +93,12 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
         throw new Error(errorData.message || `Error ${response.status}`);
       }
 
-      // Manejar respuestas sin JSON (204 No Content)
       let responseData = null;
       if (response.status !== 204) {
         responseData = await response.json().catch(() => null);
       }
       console.log('Incidencia guardada:', responseData);
 
-      // Refrescar la lista ANTES de mostrar el alert
       if (typeof onAdd === 'function') {
         console.log('Refrescando lista antes de navegar...');
         await onAdd();
@@ -136,7 +131,6 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
         <h2 className="form-title">{id ? 'Editar Incidencia' : 'Nueva Incidencia'}</h2>
 
         <form onSubmit={handleSubmit}>
-          {/* TÍTULO */}
           <div className="form-group">
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <label className="form-label"><ClipboardList size={18} color='#d477fb'/> Título</label>

@@ -26,26 +26,21 @@ export default function IncidentList({ incidents = [], setIncidents }) {
       try {
         const data = await getUsuarios();
         
-        // 1. Usuarios reales de la base de datos (evitamos nombres nulos aquí)
         let apiUsers = (data || [])
           .map(u => u.nombreReal || u.nombre)
           .filter(Boolean);
 
-        // 2. Nombres que aparecen en las incidencias actuales
         const incidentUsers = (incidents || [])
           .map(inc => inc.usuarioAsignado?.trim())
           .filter(Boolean);
 
-        // 3. Combinamos ambos en un Set para quitar duplicados
         const combinedNames = new Set([...apiUsers, ...incidentUsers]);
         
-        // 4. Creamos la lista final de objetos
         const finalUserList = Array.from(combinedNames).map((name, index) => ({
           id: `user-${index}`,
           nombre: name
         }));
 
-        // 5. SI hay alguna incidencia sin usuario, añadimos la opción "Sin asignar" al principio
         const tieneIncidenciasSinAsignar = (incidents || []).some(inc => !inc.usuarioAsignado?.trim());
         if (tieneIncidenciasSinAsignar) {
           finalUserList.unshift({ id: 'unassigned', nombre: 'Sin asignar' });
@@ -106,20 +101,16 @@ export default function IncidentList({ incidents = [], setIncidents }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showUserDropdown]);
 
-  // --- LÓGICA DE FILTRADO CORREGIDA PARA "Sin asignar" ---
     const filteredIncidents = (incidents || []).filter(inc => {
     const matchesSearch = !tempSearch || inc.titulo?.toLowerCase().includes(tempSearch.toLowerCase());
     const matchesStatus = !tempStatus || getStatusLabel(inc.estado) === tempStatus;
     const matchesPriority = !tempPriority || getPriorityLabel(inc.prioridad) === tempPriority;
     
-    // Lógica especial para el filtro de usuario
     let matchesUser = true;
     if (tempUser) {
       if (tempUser === 'Sin asignar') {
-        // Si el filtro es "Sin asignar", buscamos incidencias cuyo campo esté vacío
         matchesUser = !inc.usuarioAsignado || inc.usuarioAsignado.trim() === '';
       } else {
-        // Busqueda normal por nombre
         matchesUser = inc.usuarioAsignado?.trim() === tempUser;
       }
     }

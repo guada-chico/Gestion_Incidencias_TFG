@@ -9,10 +9,9 @@ export default function IncidentDetail({ incidents, setIncidents }) {
   const { id } = useParams();
   const [newComment, setNewComment] = useState('');
   
-  // 1. Buscamos la incidencia (usar 'id' en minúscula)
   const incident = incidents.find(inc => inc.id === parseInt(id));
 
-  // 2. LÓGICA DE PARSEO: Convertimos el String del Back en un Array para el Front
+  // LÓGICA DE PARSEO: Convertimos el String del Back en un Array para el Front
   // Intenta con PascalCase primero (como devuelve el GET), luego camelCase, luego localStorage
   const comentariosJson = incident?.ComentariosJson || incident?.comentariosJson || '';
   const comentariosBackend = comentariosJson ? JSON.parse(comentariosJson) : [];
@@ -38,14 +37,12 @@ export default function IncidentDetail({ incidents, setIncidents }) {
     return `${day}/${month}/${date.getFullYear()}`;
   };
 
-  // 3. FUNCIÓN CORREGIDA PARA GUARDAR
   const addComment = async () => {
     if (!newComment.trim()) return;
 
     const nuevoComentarioObj = { text: newComment, date: new Date().toLocaleString('es-ES') };
     const nuevaListaComentarios = [...listaComentarios, nuevoComentarioObj];
 
-    // Preparamos el objeto para el Backend (con PascalCase como espera el back)
     const incidentActualizado = { 
       Id: incident.id,
       Titulo: incident.titulo,
@@ -64,11 +61,8 @@ export default function IncidentDetail({ incidents, setIncidents }) {
       const resultado = await updateIncidencia(incident.id, incidentActualizado);
       console.log('Respuesta del backend:', resultado);
       
-      // GUARDAR EN localStorage COMO BACKUP (por si el backend no devuelve ComentariosJson)
       localStorage.setItem(`comentarios_${id}`, JSON.stringify(nuevaListaComentarios));
-      
-      // Actualizamos el estado global para que se vea al instante
-      // Guardamos tanto ComentariosJson (PascalCase) como comentariosJson (camelCase) para consistencia
+
       const updated = incidents.map(inc => 
         inc.id === incident.id ? { 
           ...inc, 
@@ -80,7 +74,6 @@ export default function IncidentDetail({ incidents, setIncidents }) {
       setIncidents(updated);
       setNewComment('');
       
-      // Mostrar mensaje de éxito
       Swal.fire({
         icon: 'success',
         title: 'Comentario guardado',
@@ -148,7 +141,6 @@ export default function IncidentDetail({ incidents, setIncidents }) {
         </h4>
 
         <div className="comments-history">
-          {/* USAMOS LA VARIABLE listaComentarios QUE YA ESTÁ PARSEADA */}
           {listaComentarios.length > 0 ? (
             listaComentarios.map((c, i) => (
               <div key={i} className="comment-block">

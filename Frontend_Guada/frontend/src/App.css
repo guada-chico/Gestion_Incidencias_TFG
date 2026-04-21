@@ -1,6 +1,3 @@
-/* =========================
-   LAYOUT GENERAL
-========================= */
 .app-layout {
   display: flex;
   flex-direction: column;
@@ -18,17 +15,12 @@
   margin: 0 auto;
 }
 
-/* Títulos de página específicos */
 .page-title {
   color: var(--kyocera-red);
   margin-bottom: 30px;
   font-size: 2rem;
 }
 
-/* =========================
-   ESTILOS DE COMPONENTES GENÉRICOS
-========================= */
-/* Botones base que se usan en toda la app */
 .btn {
   padding: 10px 15px;
   border-radius: 8px;
@@ -50,14 +42,12 @@
 .btn-edit { background: #eaf3fa; color: #004a7c; border: 1px solid #cce7fa; }
 .btn-detail { background: #f6ebff; color: #5a189a; border: 1px solid #f2dbfc; }
 
-/* Badges de Estado/Prioridad */
 .status-badge, .priority-badge {
   font-weight: bold;
   font-size: 14px;
   letter-spacing: 0.5px;
 }
 
-/* Responsive básico para la estructura */
 @media (max-width: 768px) {
   .main-content { padding: 10px; }
   .page-title { font-size: 1.5rem; }

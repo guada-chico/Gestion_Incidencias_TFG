@@ -1,6 +1,3 @@
-/* =========================
-   CONTENEDOR DE EDICIÓN/CREACIÓN
-========================= */
 .form-container {
     display: flex;
     flex-direction: column;
@@ -17,11 +14,9 @@
     box-shadow: var(--shadow);
     width: 100%;
     max-width: 700px;
-    /* Franja roja superior igual que en Detalle */
     border-top: 5px solid var(--kyocera-red); 
 }
 
-/* TÍTULO PRINCIPAL DE LA PÁGINA */
 .form-title {
     color: var(--text-main);
     text-align: center;
@@ -30,9 +25,6 @@
     font-weight: 700;
 }
 
-/* =========================
-   TÍTULOS DE SECCIÓN (UNIFICADOS A 18px)
-========================= */
 .form-section-title {
     display: flex;
     align-items: center;
@@ -42,12 +34,9 @@
     margin-bottom: 15px;
     border-bottom: 2px solid #eee;
     padding-bottom: 8px;
-    font-weight: 600; /* Negrita equilibrada */
+    font-weight: 600; 
 }
 
-/* =========================
-   INPUTS Y PLACEHOLDERS
-========================= */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -83,7 +72,6 @@
     background-color: #fff;
 }
 
-/* Unificación de Placeholder */
 .form-container .search-input::placeholder,
 .form-textarea::placeholder {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -109,13 +97,10 @@
     margin-bottom: 20px;
 }
 
-/* =========================
-   BOTÓN PRINCIPAL (ROJO)
-========================= */
 .btn-submit-full {
     width: 100%;
-    background-color: var(--kyocera-red) !important;
-    color: white !important;
+    background-color: var(--kyocera-red);
+    color: white;
     height: 50px;
     border: none;
     border-radius: 8px;
@@ -130,9 +115,6 @@
     opacity: 0.9;
 }
 
-/* =========================
-   VOLVER AL LISTADO (CENTRADO Y GRIS)
-========================= */
 .back-link-container {
     margin-top: 30px;
     display: flex;
@@ -145,7 +127,7 @@
     align-items: center;
     gap: 8px;
     text-decoration: none;
-    color: #666666; /* Gris corporativo */
+    color: #666666;
     font-weight: bold;
     transition: color 0.2s;
 }
@@ -154,9 +136,6 @@
     color: var(--kyocera-red);
 }
 
-/* =========================
-   RESPONSIVO
-========================= */
 @media (max-width: 768px) {
     .form-row {
         grid-template-columns: 1fr;

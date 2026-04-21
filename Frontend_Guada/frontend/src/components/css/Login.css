@@ -4,7 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--bg); /* Asegúrate de que --bg esté en index.css */
+  background-color: var(--bg);
   padding: 20px;
 }
 
