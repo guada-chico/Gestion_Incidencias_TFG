@@ -1,7 +1,8 @@
-using Kyocera.Microservice.Application.Interfaces;
-using Kyocera.Microservice.Application.Services;
+using Kyocera.Microservice.Application.Services.Authorization;
+using Kyocera.Microservice.Application.Services.Incidencias;
 using Kyocera.Microservice.DbContext.BoundedContext;
-using Kyocera.Microservice.DbContext.Repository;
+using Kyocera.Microservice.DbContext.Repository.Incidencias;
+using Kyocera.Microservice.DbContext.Repository.Usuarios;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 using System.Text.Json.Serialization;
-using AuthSvc = Kyocera.Microservice.Application.Services.IAuthorizationService;
+using AuthSvc = Kyocera.Microservice.Application.Services.Authorization.IAuthorizationService;
 
 var builder = WebApplication.CreateBuilder(args);
 

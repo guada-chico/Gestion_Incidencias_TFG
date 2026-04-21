@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Save, ClipboardList, User, Calendar, AlertCircle } from 'lucide-react';
 import Swal from 'sweetalert2';
-import { API_BASE_URL, authHeader } from '../services/api-config'; // Importante para la conexión
+import { API_BASE_URL, authHeader } from '../services/api-config';
 import './IncidentForm.css';
 
 export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
   const { id } = useParams();
   const navigate = useNavigate();
   
-  // CORRECCIÓN: Nombres en PascalCase para coincidir con ModelsIncidencia.cs
   const [formData, setFormData] = useState({ 
     Id: 0,
     Titulo: '', 

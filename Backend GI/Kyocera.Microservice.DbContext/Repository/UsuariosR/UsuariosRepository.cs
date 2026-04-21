@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Kyocera.Microservice.DbContext.BoundedContext;
-using Kyocera.Microservice.Models.Models;
+using Kyocera.Microservice.Models.Models.Entities;
 
-namespace Kyocera.Microservice.DbContext.Repository
+namespace Kyocera.Microservice.DbContext.Repository.Usuarios
 {
     public class UsuariosRepository : IUsuariosRepository
     {

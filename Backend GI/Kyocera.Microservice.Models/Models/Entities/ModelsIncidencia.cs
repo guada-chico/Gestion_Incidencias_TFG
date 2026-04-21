@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kyocera.Microservice.Models.Models
+namespace Kyocera.Microservice.Models.Models.Entities
 {    public class Incidencia
     {
         public int Id { get; set; }

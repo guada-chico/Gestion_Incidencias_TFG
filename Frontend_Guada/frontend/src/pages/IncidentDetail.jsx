@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MessageSquareText, CalendarClock, User2, ArrowLeft, ShieldAlert, Info, Tag, FileText } from 'lucide-react';
 import Swal from 'sweetalert2';
-import { updateIncidencia } from '../services/incidencias-service'; // Importamos el servicio para guardar
+import { updateIncidencia } from '../services/incidencias-service';
 import './IncidentDetail.css'; 
 
 export default function IncidentDetail({ incidents, setIncidents }) {

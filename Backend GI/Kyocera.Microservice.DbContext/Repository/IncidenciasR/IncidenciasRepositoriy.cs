@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Kyocera.Microservice.Models.Models;
 using Kyocera.Microservice.DbContext.BoundedContext;
+using Kyocera.Microservice.Models.Models.Entities;
 
 
-namespace Kyocera.Microservice.DbContext.Repository
+namespace Kyocera.Microservice.DbContext.Repository.Incidencias
 {
     public class IncidenciasRepository : IIncidenciasRepository
     {

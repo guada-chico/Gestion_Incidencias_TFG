@@ -2,10 +2,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Kyocera.Microservice.DbContext.Repository;
 using Kyocera.Microservice.Models.Models;
+using Kyocera.Microservice.DbContext.Repository.Usuarios;
 
-namespace Kyocera.Microservice.Application.Services
+namespace Kyocera.Microservice.Application.Services.Authorization
 {
     public class AuthService : IAuthorizationService
     {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Kyocera.Microservice.Models.Models;
+using Kyocera.Microservice.Models.Models.Entities;
 
 namespace Kyocera.Microservice.DbContext.BoundedContext
 {

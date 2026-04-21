@@ -1,6 +1,6 @@
-﻿using Kyocera.Microservice.Models.Models;
+﻿using Kyocera.Microservice.Models.Models.Entities;
 
-namespace Kyocera.Microservice.Application.Interfaces
+namespace Kyocera.Microservice.Application.Services.Incidencias
 {
     public interface IIncidenciasService
     {

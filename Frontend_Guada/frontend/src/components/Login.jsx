@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import kyoImg from '../assets/Kyocera_logo.svg.png'
-import { login, register } from '../Services/auth-service' // Asegurada la S mayúscula de Services
+import { login, register } from '../Services/auth-service'
 import { getValidToken } from '../Services/api-config' 
 
 export default function Login({ setToken }) {

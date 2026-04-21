@@ -1,7 +1,6 @@
-﻿using Kyocera.Microservice.Application.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-using AuthSvc = Kyocera.Microservice.Application.Services.IAuthorizationService;
+using AuthSvc = Kyocera.Microservice.Application.Services.Authorization.IAuthorizationService;
 
 [ApiController]
 [Route("api/[controller]")]

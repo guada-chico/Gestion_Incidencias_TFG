@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Kyocera.Microservice.Models.Models;
+using Kyocera.Microservice.Models.Models.Entities;
 
-namespace Kyocera.Microservice.DbContext.Repository
+namespace Kyocera.Microservice.DbContext.Repository.Incidencias
 {
     public interface IIncidenciasRepository
     {

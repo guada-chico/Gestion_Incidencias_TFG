@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kyocera.Microservice.Application.Services
+namespace Kyocera.Microservice.Application.Services.Authorization
 {
     public interface IAuthorizationService
     {

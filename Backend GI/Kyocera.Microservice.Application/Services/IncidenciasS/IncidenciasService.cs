@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Kyocera.Microservice.Application.Interfaces;
-using Kyocera.Microservice.DbContext.Repository;
-using Kyocera.Microservice.Models.Models;
+using Kyocera.Microservice.DbContext.Repository.Incidencias;
+using Kyocera.Microservice.Models.Models.Entities;
 
-namespace Kyocera.Microservice.Application.Services
+namespace Kyocera.Microservice.Application.Services.Incidencias
 {
     public class IncidenciasService : IIncidenciasService
     {

@@ -106,7 +106,7 @@ export default function IncidentList({ incidents = [], setIncidents }) {
   }, [showUserDropdown]);
 
   // --- LÓGICA DE FILTRADO CORREGIDA PARA "Sin asignar" ---
-  const filteredIncidents = (incidents || []).filter(inc => {
+    const filteredIncidents = (incidents || []).filter(inc => {
     const matchesSearch = !tempSearch || inc.titulo?.toLowerCase().includes(tempSearch.toLowerCase());
     const matchesStatus = !tempStatus || getStatusLabel(inc.estado) === tempStatus;
     const matchesPriority = !tempPriority || getPriorityLabel(inc.prioridad) === tempPriority;

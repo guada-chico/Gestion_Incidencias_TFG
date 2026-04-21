@@ -1,4 +1,4 @@
-namespace Kyocera.Microservice.Models.Models
+namespace Kyocera.Microservice.Models.Models.Entities
 {
     public class Usuario
     {
