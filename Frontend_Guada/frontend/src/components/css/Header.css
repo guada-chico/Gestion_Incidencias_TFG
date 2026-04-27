@@ -20,14 +20,14 @@
 }
 
 .header-logo {
-  height: 40px;
+  height: 70px;
   display: block;
 }
 
 .header-title {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--kyocera-red);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--fixora-red);
   margin: 0;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .nav-links a:hover, .logout-icon-btn:hover {
-  color: var(--kyocera-red);
+  color: var(--fixora-red);
 }
 
 .logout-btn {

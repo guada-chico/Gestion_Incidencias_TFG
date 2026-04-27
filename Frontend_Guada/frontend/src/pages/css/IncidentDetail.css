@@ -15,7 +15,7 @@
   background: #fff;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
-  border-top: 5px solid var(--kyocera-red);
+  border-top: 5px solid var(--fixora-red);
 }
 
 .detail-header {
@@ -70,7 +70,7 @@
 }
 
 .btn-search {
-  background-color: var(--kyocera-red);
+  background-color: var(--fixora-red);
   color: white;
   border: none;
   border-radius: 8px;
@@ -88,7 +88,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--kyocera-red);
+  color: var(--fixora-red);
   font-size: 18px;
   font-weight: bold;
 }
@@ -180,7 +180,7 @@
 }
 
 .back-link:hover {
-  color: var(--kyocera-red);
+  color: var(--fixora-red);
 }
 
 @media (max-width: 768px) {

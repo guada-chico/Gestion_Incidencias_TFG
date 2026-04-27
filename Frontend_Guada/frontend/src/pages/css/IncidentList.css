@@ -5,12 +5,13 @@
     padding: 20px;
 }
 
-.page-title {
-    text-align: center;
-    color: var(--kyocera-red);
-    margin-bottom: 30px;
-    font-size: 2rem;
-    font-weight: 700;
+.incident-page img {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    margin: 0 auto 30px auto;
+    padding: 20px;
 }
 
 .search-form {
@@ -50,7 +51,7 @@
 
 .search-form .search-input:focus,
 .user-dropdown-trigger:focus {
-    border-color: var(--kyocera-red);
+    border-color: var(--fixora-red);
     background-color: #fff;
     box-shadow: 0 0 0 4px rgba(229, 0, 45, 0.1);
 }
@@ -109,7 +110,7 @@
     z-index: 10;
 }
 
-.clear-user-x:hover { color: var(--kyocera-red); }
+.clear-user-x:hover { color: var(--fixora-red); }
 
 .incident-grid {
     display: grid;

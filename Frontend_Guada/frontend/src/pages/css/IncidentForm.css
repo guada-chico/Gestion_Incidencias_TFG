@@ -14,7 +14,7 @@
     box-shadow: var(--shadow);
     width: 100%;
     max-width: 700px;
-    border-top: 5px solid var(--kyocera-red); 
+    border-top: 5px solid var(--fixora-red); 
 }
 
 .form-title {
@@ -68,7 +68,7 @@
 
 .form-group input:focus, 
 .form-textarea:focus {
-    border-color: var(--kyocera-red);
+    border-color: var(--fixora-red);
     background-color: #fff;
 }
 
@@ -99,7 +99,7 @@
 
 .btn-submit-full {
     width: 100%;
-    background-color: var(--kyocera-red);
+    background-color: var(--fixora-red);
     color: white;
     height: 50px;
     border: none;
@@ -133,7 +133,7 @@
 }
 
 .back-link:hover {
-    color: var(--kyocera-red);
+    color: var(--fixora-red);
 }
 
 @media (max-width: 768px) {

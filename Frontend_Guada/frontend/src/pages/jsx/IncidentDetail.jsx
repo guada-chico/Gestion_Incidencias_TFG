@@ -86,7 +86,7 @@ export default function IncidentDetail({ incidents, setIncidents }) {
         icon: 'error',
         title: 'Error',
         text: error.message || 'No se pudo guardar el comentario',
-        confirmButtonColor: 'var(--kyocera-red)'
+        confirmButtonColor: 'var(--fixora-red)'
       });
     }
   };
@@ -137,7 +137,7 @@ export default function IncidentDetail({ incidents, setIncidents }) {
         </div>
         
         <h4 className="comments-title">
-          <MessageSquareText size={16} color="var(--kyocera-red)" /> Seguimiento
+          <MessageSquareText size={16} color="var(--fixora-red)" /> Seguimiento
         </h4>
 
         <div className="comments-history">

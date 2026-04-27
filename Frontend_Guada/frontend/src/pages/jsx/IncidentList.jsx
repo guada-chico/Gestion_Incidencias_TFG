@@ -4,6 +4,7 @@ import { Eye, Edit3, Trash2, User, Calendar } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { deleteIncidencia, getUsuarios } from '../../Services/incidencias-service';
 import '../css/IncidentList.css';
+import listadoImg from '../../assets/listado_sf.png';
 
 export default function IncidentList({ incidents = [], setIncidents }) {
   const [tempSearch, setTempSearch] = useState('');
@@ -123,7 +124,7 @@ export default function IncidentList({ incidents = [], setIncidents }) {
 
   return (
     <div className="incident-page">
-      <h2 className="page-title">Listado de Incidencias</h2>
+      <img src={listadoImg} alt="Listado de Incidencias" />
 
       <form className="search-form" onSubmit={(e) => e.preventDefault()}>
         <input

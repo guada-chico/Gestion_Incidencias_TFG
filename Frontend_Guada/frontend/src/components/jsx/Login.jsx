@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import kyoImg from '../../assets/logo_fixora.png'
+import logoImg from '../../assets/logo_fixora_sf.png'
 import { login, register } from '../../Services/auth-service'
 import { getValidToken } from '../../Services/api-config' 
 import '../css/Login.css'
@@ -32,7 +32,7 @@ export default function Login({ setToken }) {
           icon: 'error',
           title: 'Error',
           text: 'Las contraseñas no coinciden',
-          confirmButtonColor: 'var(--kyocera-red)'
+          confirmButtonColor: 'var(--fixora-red)'
         })
         return
       }
@@ -45,14 +45,14 @@ export default function Login({ setToken }) {
           icon: 'success',
           title: 'Registro completado',
           text: 'Ahora puedes iniciar sesión',
-          confirmButtonColor: 'var(--kyocera-red)'
+          confirmButtonColor: 'var(--fixora-red)'
         }).then(() => setIsRegister(false))
       } catch (err) {
         Swal.fire({
           icon: 'error',
           title: 'Error de registro',
           text: err.message,
-          confirmButtonColor: 'var(--kyocera-red)'
+          confirmButtonColor: 'var(--fixora-red)'
         })
       }
 
@@ -67,7 +67,7 @@ export default function Login({ setToken }) {
           icon: 'success',
           title: 'Bienvenido',
           text: `Sesión iniciada correctamente`,
-          confirmButtonColor: 'var(--kyocera-red)'
+          confirmButtonColor: 'var(--fixora-red)'
         }).then(() => navigate('/'))
 
       } catch (err) {
@@ -75,7 +75,7 @@ export default function Login({ setToken }) {
           icon: 'error',
           title: 'Error de acceso',
           text: 'Usuario o contraseña incorrectos',
-          confirmButtonColor: 'var(--kyocera-red)'
+          confirmButtonColor: 'var(--fixora-red)'
         })
       }
     }
@@ -89,8 +89,8 @@ export default function Login({ setToken }) {
   return (
     <div className="login-page">
       <div className="login-header">
-        <img src={kyoImg} alt="Kyocera Logo" />
-        <h1>Gestión de Incidencias</h1>
+        <img src={logoImg} alt="Fixora Logo" />
+        <h1>Inicio sesión</h1>
       </div>
 
       <div className="login-container">

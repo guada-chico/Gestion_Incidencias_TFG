@@ -49,7 +49,7 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
         icon: 'error', 
         title: 'Error', 
         text: 'El título es requerido',
-        confirmButtonColor: 'var(--kyocera-red)'
+        confirmButtonColor: 'var(--fixora-red)'
       });
       return;
     }
@@ -59,7 +59,7 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
         icon: 'error', 
         title: 'Error', 
         text: 'La descripción es requerida',
-        confirmButtonColor: 'var(--kyocera-red)'
+        confirmButtonColor: 'var(--fixora-red)'
       });
       return;
     }
@@ -108,7 +108,7 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
       Swal.fire({ 
         icon: 'success', 
         title: id ? 'Actualizado' : '¡Creada!', 
-        confirmButtonColor: 'var(--kyocera-red)' 
+        confirmButtonColor: 'var(--fixora-red)' 
       }).then(() => {
         console.log('Navegando a /');
         navigate('/');
@@ -120,7 +120,7 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
         icon: 'error', 
         title: 'Error', 
         text: error.message,
-        confirmButtonColor: 'var(--kyocera-red)'
+        confirmButtonColor: 'var(--fixora-red)'
       });
     }
   };
@@ -174,7 +174,7 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
             </div>
             
             <div className="form-group">
-              <label className="form-label"><Calendar size={18} color='var(--kyocera-red)'/> Fecha Límite</label>
+              <label className="form-label"><Calendar size={18} color='var(--fixora-red)'/> Fecha Límite</label>
               <input 
                 className="search-input" 
                 type="date" 
@@ -196,7 +196,7 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
             </div>
             
             <div className="form-group">
-              <label className="form-label"><AlertCircle size={18} color='var(--kyocera-red)'/> Prioridad</label>
+              <label className="form-label"><AlertCircle size={18} color='var(--fixora-red)'/> Prioridad</label>
               <select className="search-input" value={formData.Prioridad} onChange={(e) => setFormData({...formData, Prioridad: e.target.value})}>
                 <option value={0}>Baja</option>
                 <option value={1}>Media</option>

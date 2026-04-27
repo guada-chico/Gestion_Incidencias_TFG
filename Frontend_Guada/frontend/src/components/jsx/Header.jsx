@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
-import logoImg from '../../assets/logo_fixora.png'; 
+import logoImg from '../../assets/logo_fixora_sf.png'; 
 import '../css/Header.css';
 
 export default function Header({ onLogout }) {
