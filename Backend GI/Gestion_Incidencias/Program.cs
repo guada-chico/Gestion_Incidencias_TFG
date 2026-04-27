@@ -35,8 +35,10 @@ builder.Services.AddAuthentication(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = false, // Temporalmente en false para evitar errores de nombre
-        ValidateAudience = false,
+        ValidateIssuer = true,
+        ValidIssuer = "tuApp",
+        ValidateAudience = true,
+        ValidAudience = "tuApp",
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("clave_super_secreta_256Bits!_OK12"))
