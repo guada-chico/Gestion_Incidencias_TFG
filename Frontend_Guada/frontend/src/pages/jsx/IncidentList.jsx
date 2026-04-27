@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Eye, Edit3, Trash2, User, Calendar } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { deleteIncidencia, getUsuarios } from '../../Services/incidencias-service';
-import { jwtDecode } from 'jwt-decode'; 
+import { jwtDecode } from 'jwt-decode';
 import '../css/IncidentList.css';
 import listadoImg from '../../assets/logo_listado_sf.png';
 
@@ -16,20 +16,26 @@ export default function IncidentList({ incidents = [], setIncidents }) {
   const [userSearch, setUserSearch] = useState('');
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [selectedUserDisplay, setSelectedUserDisplay] = useState('Usuario asignado');
-  
-  // Lógica para obtener el rol del usuario
+
+  // Lógica de Roles: Extraemos el rol del token con soporte para el formato largo de .NET
   const token = localStorage.getItem('token');
   let userRole = 'User';
-  try {
-    if (token) {
+  if (token) {
+    try {
       const decoded = jwtDecode(token);
-      // Ajusta la clave según cómo venga en tu token (ej. "role" o el claim de .NET)
-      userRole = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || decoded.role || 'User';
+      // .NET genera el rol en esta URL larga. Buscamos ahí primero.
+      userRole = 
+        decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || 
+        decoded.role || 
+        'User';
+        
+      // Descomenta la siguiente línea para depurar en la consola si sigue fallando:
+      // console.log("Rol detectado:", userRole);
+    } catch (e) {
+      console.error("Error al decodificar el token", e);
     }
-  } catch (error) {
-    console.error("Error decodificando token", error);
   }
-
+  
   const isAdmin = userRole === 'Admin';
 
   const estadoMap = { 0: 'Abierta', 1: 'En Progreso', 2: 'Resuelta', 3: 'Cerrada' };
@@ -40,12 +46,10 @@ export default function IncidentList({ incidents = [], setIncidents }) {
 
   useEffect(() => {
     const loadUsers = async () => {
-      // Solo cargamos la lista de usuarios si es Admin
       if (!isAdmin) return;
-
       try {
         const data = await getUsuarios();
-        let apiUsers = (data || []).map(u => u.nombreReal || u.nombre || u.email).filter(Boolean);
+        let apiUsers = (data || []).map(u => u.nombreReal || u.nombre).filter(Boolean);
         const incidentUsers = (incidents || []).map(inc => inc.usuarioAsignado?.trim()).filter(Boolean);
         const combinedNames = new Set([...apiUsers, ...incidentUsers]);
         
@@ -68,18 +72,16 @@ export default function IncidentList({ incidents = [], setIncidents }) {
   const handleDelete = async (id) => {
     const result = await Swal.fire({
       title: '¿Borrar incidencia?',
-      text: "Esta acción no se puede deshacer",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#e5002d',
       confirmButtonText: 'Sí, eliminar'
     });
-
     if (result.isConfirmed) {
       try {
         await deleteIncidencia(id);
         setIncidents(incidents.filter(inc => inc.id !== id));
-        Swal.fire('Eliminado', 'La incidencia ha sido borrada.', 'success');
+        Swal.fire('Eliminado', '', 'success');
       } catch (error) {
         Swal.fire({ icon: 'error', title: 'Error al borrar', confirmButtonColor: '#e5002d' });
       }
@@ -108,9 +110,11 @@ export default function IncidentList({ incidents = [], setIncidents }) {
     
     let matchesUser = true;
     if (tempUser) {
-      matchesUser = (tempUser === 'Sin asignar') 
-        ? (!inc.usuarioAsignado || inc.usuarioAsignado.trim() === '')
-        : (inc.usuarioAsignado?.trim() === tempUser);
+      if (tempUser === 'Sin asignar') {
+        matchesUser = !inc.usuarioAsignado || inc.usuarioAsignado.trim() === '';
+      } else {
+        matchesUser = inc.usuarioAsignado?.trim() === tempUser;
+      }
     }
     return matchesSearch && matchesStatus && matchesPriority && matchesUser;
   });
@@ -126,13 +130,13 @@ export default function IncidentList({ incidents = [], setIncidents }) {
         <input
           className="search-input"
           type="text"
-          placeholder="Buscar por título..."
+          placeholder="Buscar incidencia..."
           value={tempSearch}
           onChange={(e) => setTempSearch(e.target.value)}
         />
         
         <select className="search-input" value={tempStatus} onChange={(e) => setTempStatus(e.target.value)}>
-          <option value="">Todos los Estados</option>
+          <option value="">Estados</option>
           <option value="Abierta">Abierta</option>
           <option value="En Progreso">En Progreso</option>
           <option value="Resuelta">Resuelta</option>
@@ -140,14 +144,13 @@ export default function IncidentList({ incidents = [], setIncidents }) {
         </select>
 
         <select className="search-input" value={tempPriority} onChange={(e) => setTempPriority(e.target.value)}>
-          <option value="">Todas las Prioridades</option>
+          <option value="">Prioridades</option>
           <option value="Baja">Baja</option>
           <option value="Media">Media</option>
           <option value="Alta">Alta</option>
           <option value="Crítica">Crítica</option>
         </select>
 
-        {/* Solo el Admin puede ver el filtro por otros usuarios */}
         {isAdmin && (
           <div className="user-dropdown-container">
             <div
@@ -206,12 +209,8 @@ export default function IncidentList({ incidents = [], setIncidents }) {
               <div className="card-actions">
                 <Link className="btn btn-detail" to={`/incidencia/${incident.id}`}><Eye size={18}/> Detalle</Link>
                 <Link className="btn btn-edit" to={`/editar/${incident.id}`}><Edit3 size={18}/> Editar</Link>
-                
-                {/* El botón de borrar solo es visible para el Admin */}
                 {isAdmin && (
-                  <button className="btn btn-danger" onClick={() => handleDelete(incident.id)}>
-                    <Trash2 size={18}/> Borrar
-                  </button>
+                  <button className="btn btn-danger" onClick={() => handleDelete(incident.id)}><Trash2 size={18}/> Borrar</button>
                 )}
               </div>
             </div>

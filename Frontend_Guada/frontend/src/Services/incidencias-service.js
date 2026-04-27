@@ -1,5 +1,16 @@
 import { API_BASE_URL, authHeader } from './api-config';
 
+// OBTENER UNA SOLA (Esta es la que faltaba y causaba el error)
+export const getIncidenciaById = async (id) => {
+    const response = await fetch(`${API_BASE_URL}/Incidencias/${id}`, {
+        headers: { ...authHeader() }
+    });
+
+    if (response.status === 401) throw new Error('Sesión expirada');
+    if (!response.ok) throw new Error('No se pudo cargar la incidencia');
+    return await response.json();
+};
+
 export const getIncidencias = async (filtros = {}) => {
     const params = new URLSearchParams({
         Estado: filtros.estado || '',
@@ -44,8 +55,7 @@ export const updateIncidencia = async (id, incidencia) => {
     }
     
     const errorData = await response.json().catch(() => ({ message: 'Error desconocido' }));
-    const errorMessage = errorData.message || errorData.error || `Error ${response.status}`;
-    throw new Error(errorMessage);
+    throw new Error(errorData.message || 'Error al actualizar');
 };
 
 export const getUsuarios = async () => {
@@ -58,8 +68,9 @@ export const getUsuarios = async () => {
 };
 
 export const deleteIncidencia = async (id) => {
-    await fetch(`${API_BASE_URL}/Incidencias/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/Incidencias/${id}`, {
         method: 'DELETE',
         headers: { ...authHeader() }
     });
+    if (!response.ok) throw new Error('Error al eliminar');
 };

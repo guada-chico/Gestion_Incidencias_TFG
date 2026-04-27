@@ -11,7 +11,7 @@ namespace Fixora.Microservice.Models.Models.Entities
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
         public DateTime? FechaLimite { get; set; }
         public string? UsuarioAsignado { get; set; }
-
+        public string? UsuarioCreador { get; set; }
         public string? ComentariosJson { get; set; }
     }
  
