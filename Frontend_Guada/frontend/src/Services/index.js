@@ -1,7 +1,6 @@
 import * as auth from './auth-service.js';
 import * as api from './incidencias-service.js';
 
-// Función para el botón de login
 async function manejarLogin() {
     try {
         await auth.login('admin.kyocera', '1234'); 
