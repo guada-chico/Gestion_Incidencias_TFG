@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
-import logoImg from '../../assets/Kyocera_logo.svg.png'; 
+import logoImg from '../../assets/logo_fixora.png'; 
 import '../css/Header.css';
 
 export default function Header({ onLogout }) {
@@ -12,7 +12,7 @@ export default function Header({ onLogout }) {
     <header className="header-global">
       <div className="header-left">
         <a href="https://www.kyoceradocumentsolutions.es" target="_blank" rel="noopener noreferrer" className="logo-link">
-          <img src={logoImg} className="header-logo" alt="Logo Kyocera" />
+          <img src={logoImg} className="header-logo" alt="Logo Fixora" />
         </a>
         
         <h1 className="header-title">Gestión de Incidencias</h1>

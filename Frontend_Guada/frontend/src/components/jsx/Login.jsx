@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import kyoImg from '../../assets/Kyocera_logo.svg.png'
+import kyoImg from '../../assets/logo_fixora.png'
 import { login, register } from '../../Services/auth-service'
 import { getValidToken } from '../../Services/api-config' 
 import '../css/Login.css'
