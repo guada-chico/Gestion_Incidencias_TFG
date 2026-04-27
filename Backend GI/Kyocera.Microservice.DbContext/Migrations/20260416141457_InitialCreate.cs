@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Kyocera.Microservice.DbContext.Migrations
+namespace Fixora.Microservice.DbContext.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -39,7 +39,9 @@ namespace Kyocera.Microservice.DbContext.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

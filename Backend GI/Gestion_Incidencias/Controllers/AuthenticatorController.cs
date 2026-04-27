@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Kyocera.Microservice.Application.Services.Authorization;
+using Fixora.Microservice.Application.Services.Authorization;
 
 [ApiController]
 [Route("api/[controller]")]

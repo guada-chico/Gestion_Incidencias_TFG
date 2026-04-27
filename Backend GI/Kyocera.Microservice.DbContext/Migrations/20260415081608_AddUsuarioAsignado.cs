@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Kyocera.Microservice.DbContext.Migrations
+namespace Fixora.Microservice.DbContext.Migrations
 {
     /// <inheritdoc />
     public partial class AddUsuarioAsignado : Migration

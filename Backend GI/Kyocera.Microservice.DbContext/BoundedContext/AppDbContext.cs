@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Kyocera.Microservice.Models.Models.Entities;
+using Fixora.Microservice.Models.Models.Entities;
 
-namespace Kyocera.Microservice.DbContext.BoundedContext
+namespace Fixora.Microservice.DbContext.BoundedContext
 {
     public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
     {

@@ -3,10 +3,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Kyocera.Microservice.Models.Models.Entities;
-using Kyocera.Microservice.DbContext.Repository.Usuarios;
+using Fixora.Microservice.Models.Models.Entities;
+using Fixora.Microservice.DbContext.Repository.Usuarios;
 
-namespace Kyocera.Microservice.Application.Services.Authorization
+namespace Fixora.Microservice.Application.Services.Authorization
 {
     public class AuthService : IAuthorizationService
     {

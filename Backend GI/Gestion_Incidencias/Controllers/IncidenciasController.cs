@@ -1,6 +1,6 @@
-using Kyocera.Microservice.DbContext.Repository.Incidencias;
-using Kyocera.Microservice.Models.Models.Entities;
-using Kyocera.Microservice.Models.Models.Filters;
+using Fixora.Microservice.DbContext.Repository.Incidencias;
+using Fixora.Microservice.Models.Models.Entities;
+using Fixora.Microservice.Models.Models.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kyocera.Microservice.Controllers  
+namespace Fixora.Microservice.Controllers  
 {
     [Authorize]
     [ApiController]

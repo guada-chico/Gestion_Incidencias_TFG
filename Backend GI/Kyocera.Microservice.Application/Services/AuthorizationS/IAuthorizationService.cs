@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace Kyocera.Microservice.Application.Services.Authorization
+namespace Fixora.Microservice.Application.Services.Authorization
 {
     public interface IAuthorizationService
     {

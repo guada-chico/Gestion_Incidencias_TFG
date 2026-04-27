@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Kyocera.Microservice.DbContext.Repository.Incidencias;
-using Kyocera.Microservice.Models.Models.Entities;
+using Fixora.Microservice.DbContext.Repository.Incidencias;
+using Fixora.Microservice.Models.Models.Entities;
 
-namespace Kyocera.Microservice.Application.Services.Incidencias
+namespace Fixora.Microservice.Application.Services.Incidencias
 {
     public class IncidenciasService : IIncidenciasService
     {
