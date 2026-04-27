@@ -1,6 +1,6 @@
-﻿using Kyocera.Microservice.Models.Models.Entities;
+﻿using Fixora.Microservice.Models.Models.Entities;
 
-namespace Kyocera.Microservice.Application.Services.Incidencias
+namespace Fixora.Microservice.Application.Services.Incidencias
 {
     public interface IIncidenciasService
     {

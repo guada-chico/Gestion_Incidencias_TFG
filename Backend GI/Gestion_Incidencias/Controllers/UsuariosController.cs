@@ -1,10 +1,10 @@
-using Kyocera.Microservice.DbContext.Repository.Usuarios;
-using Kyocera.Microservice.Models.Models.Entities;
+using Fixora.Microservice.DbContext.Repository.Usuarios;
+using Fixora.Microservice.Models.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace Kyocera.Microservice.Controllers
+namespace Fixora.Microservice.Controllers
 {
     [Authorize]
     [ApiController]

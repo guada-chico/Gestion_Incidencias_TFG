@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Kyocera.Microservice.Models.Models.Entities;
+using Fixora.Microservice.Models.Models.Entities;
 
-namespace Kyocera.Microservice.DbContext.Repository.Usuarios
+namespace Fixora.Microservice.DbContext.Repository.Usuarios
 {
     public interface IUsuariosRepository
     {
