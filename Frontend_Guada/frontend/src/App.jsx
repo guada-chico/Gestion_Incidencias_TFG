@@ -73,7 +73,7 @@ const incidenciasList = data.Data || data.data || (Array.isArray(data) ? data : 
     setToken(null)
   }
 
-  if (loading) return <div className="loading">Cargando conexión con Kyocera API...</div>
+  if (loading) return <div className="loading">Cargando conexión con Fixora API...</div>
 
   return (
     <Router>
