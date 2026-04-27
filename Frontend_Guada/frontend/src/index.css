@@ -28,7 +28,7 @@ body {
 }
 
 h1, h2, h3 {
-  color: var(--fixora-red);
+  color: var(--text-main);
   text-align: center;
 }
 

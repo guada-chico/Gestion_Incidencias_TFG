@@ -90,7 +90,6 @@ export default function Login({ setToken }) {
     <div className="login-page">
       <div className="login-header">
         <img src={logoImg} alt="Fixora Logo" />
-        <h1>Inicio sesión</h1>
       </div>
 
       <div className="login-container">

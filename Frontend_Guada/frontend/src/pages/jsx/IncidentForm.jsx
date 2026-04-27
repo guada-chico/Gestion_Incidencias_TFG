@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Save, ClipboardList, User, Calendar, AlertCircle } from 'lucide-react';
+import { Save, ClipboardList, User, Calendar, Tag, Info } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { API_BASE_URL, authHeader } from '../../services/api-config';
 import '../css/IncidentForm.css';
+import tituloNueva from '../../assets/NUEVA_sf.png';
+import tituloEditar from '../../assets/EDITAR_sf.png';
 
 export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
   const { id } = useParams();
@@ -128,7 +130,11 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
   return (
     <div className="form-container">
       <div className="form-card">
-        <h2 className="form-title">{id ? 'Editar Incidencia' : 'Nueva Incidencia'}</h2>
+        <img
+          src={id ? tituloEditar : tituloNueva} 
+          alt="Título"
+          className="titulo-img"
+        />
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -186,7 +192,7 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
 
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Estado</label>
+              <label className="form-label"><Tag size={18} color='var(--fixora-red)'/>Estado</label>
               <select className="search-input" value={formData.Estado} onChange={(e) => setFormData({...formData, Estado: e.target.value})}>
                 <option value={0}>Abierta</option>
                 <option value={1}>En Progreso</option>
@@ -196,7 +202,7 @@ export default function IncidentForm({ incidents = [], setIncidents, onAdd }) {
             </div>
             
             <div className="form-group">
-              <label className="form-label"><AlertCircle size={18} color='var(--fixora-red)'/> Prioridad</label>
+              <label className="form-label"><Info size={18} color='var(--fixora-red)'/> Prioridad</label>
               <select className="search-input" value={formData.Prioridad} onChange={(e) => setFormData({...formData, Prioridad: e.target.value})}>
                 <option value={0}>Baja</option>
                 <option value={1}>Media</option>

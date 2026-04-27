@@ -4,6 +4,7 @@ import { MessageSquareText, CalendarClock, User2, ArrowLeft, ShieldAlert, Info, 
 import Swal from 'sweetalert2';
 import { updateIncidencia } from '../../services/incidencias-service';
 import '../css/IncidentDetail.css'; 
+import detalleImg from '../../assets/DETALLE_sf.png';
 
 export default function IncidentDetail({ incidents, setIncidents }) {
   const { id } = useParams();
@@ -95,30 +96,28 @@ export default function IncidentDetail({ incidents, setIncidents }) {
 
   return (
     <div className="detail-container">
-      <h2 style={{ textAlign: 'center', marginBottom: '20px', fontSize: '2rem' }}>Detalle Incidencias</h2>
+      <img src={detalleImg} alt="Detalle Incidencias" />
       <div className="detail-card">
         <div className="detail-header">
           <h2>{incident.titulo}</h2>
           <div className="limit-date">
-            <ShieldAlert size={16} /> Límite: {formatLimitDate(incident.fechaLimite)}
+            <ShieldAlert size={18} /> Límite: {formatLimitDate(incident.fechaLimite)}
           </div>
         </div>
 
         <div className="tags-row">
           <div className="tag-item">
-            <Info size={16} color={getStatusColor(getStatusLabel(incident.estado))} />
-            <strong>Estado:</strong> 
+            <Tag size={16} color={getStatusColor(getStatusLabel(incident.estado))} />
             <span style={{ color: getStatusColor(getStatusLabel(incident.estado)) }}>{getStatusLabel(incident.estado).toUpperCase()}</span>
           </div>
           <div className="tag-item">
-            <Tag size={16} color={getPriorityColor(getPriorityLabel(incident.prioridad))} />
-            <strong>Prioridad:</strong> 
+            <Info size={16} color={getPriorityColor(getPriorityLabel(incident.prioridad))} />
             <span style={{ color: getPriorityColor(getPriorityLabel(incident.prioridad)) }}>{getPriorityLabel(incident.prioridad).toUpperCase()}</span>
           </div>
         </div>
 
         <div className="description-section" style={{ marginTop: '30px', marginBottom: '25px' }}>
-          <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '18px', color: '#333', marginBottom: '15px', borderBottom: '2px solid #eee', paddingBottom: '8px' }}>
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '16px', color: '#333', marginBottom: '15px', borderBottom: '2px solid #eee', paddingBottom: '8px' }}>
             <FileText size={16} color='#d477fb' />Descripción Incidencia
           </h3>
           <p className="description-text" style={{ background: '#f9f9f9', padding: '18px', borderRadius: '10px', border: '1px solid #eee', lineHeight: '1.6', color: '#444' }}>
