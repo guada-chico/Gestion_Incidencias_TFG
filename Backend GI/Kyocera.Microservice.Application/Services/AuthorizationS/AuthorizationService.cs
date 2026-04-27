@@ -99,7 +99,7 @@ namespace Kyocera.Microservice.Application.Services.Authorization
 
             var creds = new SigningCredentials(
                 key,
-                SecurityAlgorithms.HmacSha256
+                SecurityAlgorithms.HmacSha256 
             );
 
             var claims = new[]
