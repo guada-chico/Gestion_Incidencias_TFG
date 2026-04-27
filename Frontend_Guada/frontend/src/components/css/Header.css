@@ -24,6 +24,12 @@
   display: block;
 }
 
+.header-gestor {
+  height: 40px;
+  display: block;
+  margin-top: 25px;
+}
+
 .header-title {
   font-size: 26px;
   font-weight: 600;

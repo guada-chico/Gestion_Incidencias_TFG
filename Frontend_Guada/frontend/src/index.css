@@ -1,5 +1,5 @@
 :root {
-  --kyocera-red: #e5002d;
+  --fixora-red: #e5002d;
   --bg: #f8f9fa;
   --border: #e0e0e0;
   --text-main: #333333;
@@ -28,7 +28,7 @@ body {
 }
 
 h1, h2, h3 {
-  color: var(--kyocera-red);
+  color: var(--fixora-red);
   text-align: center;
 }
 
