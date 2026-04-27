@@ -1,6 +1,6 @@
 <Solution StartupProject="webapi-project-2024">
-  <Project Path="../Kyocera.Microservice.Application/Fixora.Microservice.Application.csproj" Id="f3448259-748c-4b23-bf97-5fac6d1e2419" />
-  <Project Path="../Kyocera.Microservice.DbContext/Fixora.Microservice.DbContext.csproj" Id="637ae5a1-e005-46b1-ad1a-3ec61405d800" />
-  <Project Path="../Kyocera.Microservice.Models/Fixora.Microservice.Models.csproj" Id="af543f8c-0a3b-4170-bc8a-da2a9ced3b27" />
+  <Project Path="../Fixora.Microservice.Application/Fixora.Microservice.Application.csproj" Id="f3448259-748c-4b23-bf97-5fac6d1e2419" />
+  <Project Path="../Fixora.Microservice.DbContext/Fixora.Microservice.DbContext.csproj" Id="637ae5a1-e005-46b1-ad1a-3ec61405d800" />
+  <Project Path="../Fixora.Microservice.Models/Fixora.Microservice.Models.csproj" Id="af543f8c-0a3b-4170-bc8a-da2a9ced3b27" />
   <Project Path="Fixora.Microservice.WebAPI.csproj" />
 </Solution>
