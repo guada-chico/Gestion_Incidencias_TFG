@@ -85,7 +85,7 @@ builder.Services.Configure<RouteOptions>(options =>
 // 4. Swagger con soporte para JWT (CORREGIDO)
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Kyocera API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Fixora API", Version = "v1" });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
