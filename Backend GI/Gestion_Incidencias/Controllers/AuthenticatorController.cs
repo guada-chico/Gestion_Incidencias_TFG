@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
-using AuthSvc = Kyocera.Microservice.Application.Services.Authorization.IAuthorizationService;
+using Kyocera.Microservice.Application.Services.Authorization;
 
 [ApiController]
 [Route("api/[controller]")]
 public class AuthenticatorController : ControllerBase
 {
-    private readonly AuthSvc _authService;
+    private readonly IAuthorizationService _authService;
 
-    public AuthenticatorController(AuthSvc authService)
+    public AuthenticatorController(IAuthorizationService authService)
     {
         _authService = authService;
     }
 
+    // LOGIN
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginRequest request)
     {
@@ -30,12 +30,18 @@ public class AuthenticatorController : ControllerBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error en Login: {ex.Message}");
-            Console.WriteLine($"StackTrace: {ex.StackTrace}");
-            return StatusCode(500, new { message = "Error interno en login", detail = ex.Message });
+            Console.WriteLine($"❌ ERROR LOGIN: {ex.Message}");
+            Console.WriteLine(ex.StackTrace);
+
+            return StatusCode(500, new
+            {
+                message = "Error interno en login",
+                error = ex.Message
+            });
         }
     }
 
+    //  REGISTER
     [HttpPost("register")]
     public IActionResult Register([FromBody] LoginRequest request)
     {
@@ -53,9 +59,14 @@ public class AuthenticatorController : ControllerBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error en Register: {ex.Message}");
-            Console.WriteLine($"StackTrace: {ex.StackTrace}");
-            return StatusCode(500, new { message = "Error interno en register", detail = ex.Message });
+            Console.WriteLine($"❌ ERROR REGISTER: {ex.Message}");
+            Console.WriteLine(ex.StackTrace);
+
+            return StatusCode(500, new
+            {
+                message = "Error interno en register",
+                error = ex.Message
+            });
         }
     }
 }
